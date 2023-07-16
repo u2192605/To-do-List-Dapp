@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {
   createBrowserRouter,
@@ -9,7 +8,8 @@ import {
 } from "react-router-dom";
 import { Main } from './Components/Main';
 import { SideBar } from './Components/SideBar';
-import { TodosContainer } from './Components/TodosContainer';
+import {store} from './redux/store'
+import { Provider } from 'react-redux';
 
 const router = createBrowserRouter([
   {
@@ -33,7 +33,9 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <Provider store={store}>
+      <RouterProvider router={router}/>
+    </Provider>
   </React.StrictMode>
 );
 

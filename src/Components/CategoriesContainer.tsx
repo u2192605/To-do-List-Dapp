@@ -1,25 +1,29 @@
-import React, { FC, Fragment } from "react";
 import { Card } from "./Card";
-import { Category } from "./Category";
-import { v4 as uuidv4 } from 'uuid';
+import { Category} from "./Category";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../redux/store";
+import React, { Fragment } from "react";
+import { addCategory } from "../redux/categorySlice";
+import { v4 as uuid } from 'uuid';
 
 
-interface Props {
-    categories: string[];
-}
+export const CateogoriesContainer = () => {
+    const categories = useSelector((state: RootState) => state.category.categories)
+    const dispatch = useDispatch()
 
-export const CateogoriesContainer: FC<Props> = ({ categories }) => {
+    const handleAddCategory = ()=>{
+        dispatch(addCategory({id:uuid(), name:'test'}))
+    }
     return (
-        <Fragment>
+        <>
             {/* <h3>Categories</h3> */}
             <Card vertical={true}>
-                {/* <ul style={{ listStyleType: 'none' }}> */}
-                    {categories.map((value,) => 
-                        <Category title={value}></Category>
-                    )}
-                {/* </ul> */}
+                {categories.map((value) =>
+                    <Category category={value}></Category>
+                )}
+                <input type="button" value={"add category"} onClick={handleAddCategory}/>
             </Card>
 
-        </Fragment>
+        </>
     )
 };

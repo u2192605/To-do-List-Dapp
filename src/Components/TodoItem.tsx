@@ -1,8 +1,8 @@
 import React, {FC} from "react"
-import { Todo } from "../Types/Todo"
+import { TodoType } from "../Types/Todo"
 import { Card } from "./Card"
 interface Props{
-    todo: Todo
+    todo: TodoType
 }
 export const TodoItem:FC<Props> = ({todo})=>{
     return (
