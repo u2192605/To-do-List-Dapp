@@ -1,0 +1,10 @@
+.add-item{
+    position: sticky;
+    height: fit-content;
+    top: 85%;
+}
+
+.add-item textarea{
+   resize: none;
+   scroll-behavior: smooth;
+}

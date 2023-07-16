@@ -8,7 +8,7 @@ export const TodoItem:FC<Props> = ({todo})=>{
     return (
         <Card vertical={false}>
             <input type="checkbox" checked={todo.finished}/> 
-            <h4>{todo.title}</h4>
+            <h4>{todo.name}</h4>
             <input type="button" value="remove"/>
         </Card>
     )

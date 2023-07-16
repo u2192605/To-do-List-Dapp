@@ -1,5 +1,6 @@
 import React, { Fragment } from "react";
 import { CateogoriesContainer } from "./CategoriesContainer";
+import { AddItem } from "./addItem";
 
 export const Main = () => {
     // const todos: Todo[] = [
