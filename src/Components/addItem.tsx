@@ -25,10 +25,10 @@ export const AddItem: FC<Props> = ({ onAddItem }) => {
                     value={content}
                     onChange={(event) => handleContentChange(event)}
                 />
-                {/* <input type="color"
+                <input type="color"
                     value={color}
                     onChange={(event) => handleColorChange(event)}
-                /> */}
+                />
                 <input type="button"
                     onClick={() => onAddItem({ content })} value='Add' />
             </form>

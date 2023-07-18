@@ -4,5 +4,5 @@ export type CategoryType = {
     id: string;
     name: string;
     color: string;
-    todoIDs?:string[];
+    todos:TodoType[];
 }

@@ -1,15 +1,18 @@
-import { configureStore} from "@reduxjs/toolkit";
-import categoryReducer from "./categorySlice";
-import todoReducer from './todoSlice'
-import itemReducer from './itemSlice'
+import { configureStore } from "@reduxjs/toolkit";
+import itemReducer from "./itemSlice";
+import { categoryAPI } from "../Services/CategoryAPI";
+import { setupListeners } from "@reduxjs/toolkit/dist/query";
 
 export const store = configureStore({
   reducer: {
-    category: categoryReducer,
-    todo:  todoReducer,
+    category: categoryAPI.reducer,
     item: itemReducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(categoryAPI.middleware),
 });
+
+setupListeners(store.dispatch)
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

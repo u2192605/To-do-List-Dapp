@@ -2,36 +2,38 @@ import { TodoItem } from "./TodoItem";
 import { Card } from "./Card";
 
 import { v4 as uuidv4 } from 'uuid';
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../redux/store";
 import { ItemType } from "../Types/Item";
-import { addTodo } from "../redux/todoSlice";
+import { useAddTodoMutation, useGetCategoryByIDQuery } from "../Services/CategoryAPI";
+import { useParams } from "react-router-dom";
 import { AddItem } from "./addItem";
 
 export const TodosContainer = () => {
-    const { category, todos } = useSelector((state: RootState) => state.todo)
-    const dispatch = useDispatch()
+    const { ID } = useParams();
+    const { data, error, isLoading } = useGetCategoryByIDQuery(ID ?? '')
+    const [addTodo, result] = useAddTodoMutation();
+    console.log(data, 'd')
+    // const dispatch = useDispatch()
     const handleAddItem = (item: ItemType) => {
         const id = uuidv4()
-        dispatch(addTodo({
+        addTodo({
             id,
             name: item.content,
-            finished: false
-        }))
+            finished: false,
+            categoryId: ID
+        })
     }
     return (
         <>
             <Card vertical={true}>
-                <h3>{category}</h3>
+                <h3>{data?.name}</h3>
                 <ul style={{ listStyle: 'none' }}>
-                    {todos.map((value) => {
+                    {data?.todos.map((value) => {
                         return (
-                            <li key={uuidv4()}>
-                                <TodoItem todo={value}></TodoItem>
-                            </li>
+                            <TodoItem todo={value}></TodoItem>
                         )
                     })}
                 </ul>
+
             </Card>
             <AddItem onAddItem={(item) => { handleAddItem(item) }} />
         </>

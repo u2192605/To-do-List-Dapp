@@ -1,31 +1,33 @@
 import { Card } from "./Card";
 import { Category } from "./Category";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../redux/store";
-import { addCategory } from "../redux/categorySlice";
 import { v4 as uuidv4 } from 'uuid';
 
 import { AddItem } from "./addItem";
 import { ItemType } from "../Types/Item";
+import { useAddCategoryMutation, useGetCategoriesQuery } from "../Services/CategoryAPI";
+import { CategoryType } from "../Types/Category";
 
 
 export const CateogoriesContainer = () => {
-    const categories = useSelector((state: RootState) => state.category.categories)
-    const dispatch = useDispatch()
+    const {data, error, isLoading} = useGetCategoriesQuery('')
+    console.log(data, 'cat')
+    // const dispatch = useDispatch()
+    const [addCategory, result] = useAddCategoryMutation();
 
     const handleAddItem = (item: ItemType) => {
         const id = uuidv4()
-        dispatch(addCategory({
+        addCategory({
             id,
             name: item.content,
-            color: item.color ?? '000000'
-        }))
+            color: item.color ?? '#000000'
+        })
     }
+    
     return (
         <>
             {/* <h3>Categories</h3> */}
             <Card vertical={true}>
-                {categories.map((value) =>
+                {data?.map((value: CategoryType) =>
                     <Category category={value} key={value.id}></Category>
                 )}
             </Card>
