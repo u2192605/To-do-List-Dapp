@@ -25,6 +25,16 @@ export const api = createApi({
       },
       invalidatesTags: ["Categories"],
     }),
+    removeCategory: builder.mutation<{success: boolean, id:string}, string>({
+      query: (id) =>{
+        return{
+          url: `categories/${id}`,
+          method: "DELETE"
+        }
+      },
+      invalidatesTags: ['Categories', "Todos"]
+    }),
+
     addTodo: builder.mutation<TodoType, Partial<TodoType>>({
       query: (body)=>{
         return{
@@ -34,11 +44,23 @@ export const api = createApi({
         }
       },
       invalidatesTags: ['Todos'],
+    }),
+
+    removeTodo: builder.mutation<{success:Boolean, id:string}, string>({
+      query: (id) =>{
+        return{
+          url: `todos/${id}`,
+          method: 'DELETE',
+        }
+      },
+      invalidatesTags: ['Todos'],
     })
   }),
 });
 
 export const {
+  useRemoveTodoMutation,
+  useRemoveCategoryMutation,
   useAddTodoMutation,
   useGetCategoriesQuery,
   useGetCategoryByIDQuery,
