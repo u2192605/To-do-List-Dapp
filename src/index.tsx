@@ -6,12 +6,13 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
-import { Main } from './Components/Main';
+import { Main } from './Pages/Home';
 import { SideBar } from './Components/SideBar';
 import { RootState, store } from './redux/store'
 import { Provider, useSelector } from 'react-redux';
-import { TodosContainer } from './Components/TodosContainer';
-import { categoryAPI } from './Services/CategoryAPI';
+import { TodoList } from './Pages/TodoList';
+import { api } from './redux/apiSlice';
+import { CategoryList } from './Pages/CategoryList';
 
 const router = createBrowserRouter([
   {
@@ -20,9 +21,9 @@ const router = createBrowserRouter([
     children: [
       {
         path: 'categories/',
-        element: <Main />,
+        element: <CategoryList />,
         loader: async ({ params }) => {
-          const p = store.dispatch(categoryAPI.endpoints.getCategories.initiate(params))
+          const p = store.dispatch(api.endpoints.getCategories.initiate(params))
           try {
             const response = await p.unwrap();
             return response;
@@ -35,10 +36,10 @@ const router = createBrowserRouter([
       },
       {
         path: 'categories/:ID',
-        element: <TodosContainer />,
+        element: <TodoList />,
         loader: async ({ params }) => {
           console.log(params.ID, 'id')
-          const p = store.dispatch(categoryAPI.endpoints.getCategoryByID.initiate(params.ID ?? ''))
+          const p = store.dispatch(api.endpoints.getCategoryByID.initiate(params.ID ?? ''))
           try {
             const response = await p.unwrap();
             console.log(response, 're')

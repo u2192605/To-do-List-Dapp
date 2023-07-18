@@ -1,14 +1,15 @@
-import { Card } from "./Card";
-import { Category } from "./Category";
+import { Card } from "../Components/Card";
+// import { Category } from "../Components/category";
 import { v4 as uuidv4 } from 'uuid';
 
-import { AddItem } from "./addItem";
+import { AddItem } from "../Components/addItem";
 import { ItemType } from "../Types/Item";
-import { useAddCategoryMutation, useGetCategoriesQuery } from "../Services/CategoryAPI";
+import { useAddCategoryMutation, useGetCategoriesQuery } from "../redux/apiSlice";
 import { CategoryType } from "../Types/Category";
+import { Category } from "../Components/Category";
 
 
-export const CateogoriesContainer = () => {
+export const CategoryList = () => {
     const {data, error, isLoading} = useGetCategoriesQuery('')
     console.log(data, 'cat')
     // const dispatch = useDispatch()

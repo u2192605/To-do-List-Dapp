@@ -4,7 +4,7 @@ import { Card } from "./Card"
 interface Props{
     todo: TodoType
 }
-export const TodoItem:FC<Props> = ({todo})=>{
+export const Todo:FC<Props> = ({todo})=>{
     return (
         <Card vertical={false}>
             <input type="checkbox" checked={todo.finished}/> 
