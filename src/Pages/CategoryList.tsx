@@ -10,7 +10,7 @@ import { Category } from "../Components/Category";
 
 
 export const CategoryList = () => {
-    const {data, error, isLoading} = useGetCategoriesQuery('')
+    const { data, error, isLoading } = useGetCategoriesQuery('')
     console.log(data, 'cat')
     // const dispatch = useDispatch()
     const [addCategory, result] = useAddCategoryMutation();
@@ -20,19 +20,21 @@ export const CategoryList = () => {
         addCategory({
             id,
             name: item.content,
-            color: item.color ?? '#000000'
+            color: item.color ?? '#FFFFFF'
         })
     }
-    
+
     return (
         <>
-            {/* <h3>Categories</h3> */}
             <Card vertical={true}>
+                <h3>Categories</h3>
                 {data?.map((value: CategoryType) =>
                     <Category category={value} key={value.id}></Category>
                 )}
             </Card>
-            <AddItem onAddItem={(item) => handleAddItem(item)}/>
+            <AddItem canChooseColor={true}
+                onAddItem={(item) => handleAddItem(item)}
+            />
         </>
     )
 };

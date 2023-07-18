@@ -1,18 +1,15 @@
-import React, { FC, Fragment } from "react";
+import { FC} from "react";
 import { Card } from "./Card";
 import { CategoryType } from "../Types/Category";
-import { Link } from "react-router-dom";
+import "./Category.css"
 interface Props {
     category: CategoryType
 }
 export const Category: FC<Props> = ({ category }) => {
     return (
-
-        <Link to={category.id}>
-            <Card vertical={false}>
-                <h4>{category.name}</h4>
-                <input type="button" value="remove" />
-            </Card>
-        </Link>
+        <Card vertical={false} to={category.id} bg={category.color}>
+            <h4 className="fit-content">{category.name}</h4>
+            <input type="button" value="remove" className="fit-content"/>
+        </Card>
     )
 }

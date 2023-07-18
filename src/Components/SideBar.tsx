@@ -1,5 +1,6 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
+import './Common.css'
 import './SideBar.css'
 import { Link } from "react-router-dom";
 
@@ -11,13 +12,23 @@ export const SideBar = () => {
                 <form>
                     <input type="search" />
                 </form>
-                <ul style={{ listStyle: 'none' }}>
-                    <li>
-                        <Link to={'categories'}>Categories</Link>
-                    </li>
-                </ul>
+                <Link to={'categories'} className="link">
+                    <h5>
+                        Categories
+                    </h5>
+                </Link>
+                <Link to={''} className="link">
+                    <h5>
+                        Profile
+                    </h5>
+                </Link>
+                <Link to={''} className="link">
+                    <h5>
+                        Settings
+                    </h5>
+                </Link>
             </nav>
-            <Outlet/>
+            <Outlet />
         </>
     )
 }

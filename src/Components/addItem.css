@@ -1,10 +1,54 @@
-.add-item{
-    position: sticky;
-    height: fit-content;
-    top: 85%;
+.floating-action-btn {
+  position: fixed;
+  display: flex;
+  bottom: 20px;
+  right: 20px;
+  flex-direction: column;
+  background-color: brown;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
 }
 
-.add-item textarea{
-   resize: none;
-   scroll-behavior: smooth;
+.overlay {
+  position: fixed;
+  bottom: 13%;
+  right: 3%;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  flex-direction: column;
+  border: 2px solid black ;
+  border-radius: 5px;
+  /* box-shadow: 2px 2px 2px 2px whitesmoke; */
+}
+
+.overlay textarea {
+  display: block;
+  width: 200px;
+  height: 100px;
+  border: none;
+  resize: none;
+  background-color: inherit;
+  padding: 0px;
+}
+
+.overlay textarea:focus {
+  outline: none;
+}
+.overlay > div {
+  display: flex;
+  direction: row;
+  width: 200px;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: white;
+}
+
+.overlay input {
+  margin-right: 2px;
+  border: none;
 }

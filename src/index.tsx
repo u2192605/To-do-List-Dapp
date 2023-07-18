@@ -6,10 +6,9 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
-import { Main } from './Pages/Home';
 import { SideBar } from './Components/SideBar';
-import { RootState, store } from './redux/store'
-import { Provider, useSelector } from 'react-redux';
+import {  store } from './redux/store'
+import { Provider } from 'react-redux';
 import { TodoList } from './Pages/TodoList';
 import { api } from './redux/apiSlice';
 import { CategoryList } from './Pages/CategoryList';

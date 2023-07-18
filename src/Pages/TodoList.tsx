@@ -26,14 +26,11 @@ export const TodoList = () => {
         <>
             <Card vertical={true}>
                 <h3>{data?.name}</h3>
-                <ul style={{ listStyle: 'none' }}>
-                    {data?.todos.map((value) => {
-                        return (
-                            <Todo todo={value}></Todo>
-                        )
-                    })}
-                </ul>
-
+                {data?.todos.map((value) => {
+                    return (
+                        <Todo todo={value}></Todo>
+                    )
+                })}
             </Card>
             <AddItem onAddItem={(item) => { handleAddItem(item) }} />
         </>
