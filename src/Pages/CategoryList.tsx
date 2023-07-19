@@ -10,8 +10,7 @@ import { Category } from "../Components/Category";
 
 
 export const CategoryList = () => {
-    const { data, error, isLoading } = useGetCategoriesQuery('')
-    console.log(data, 'cat')
+    const { data, error, isLoading } = useGetCategoriesQuery()
     // const dispatch = useDispatch()
     const [addCategory, result] = useAddCategoryMutation();
 

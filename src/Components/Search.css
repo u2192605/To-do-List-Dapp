@@ -1,0 +1,30 @@
+.search-input{
+    /* display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    width: fit-content;
+    height: fit-content; */
+    position: relative;
+    display: inline-block;
+    height: fit-content;
+}
+
+.search-input input[type="search"] {
+    padding-left: 30px;
+    border: none;
+    outline: none;
+    font-size: 16px;
+  }
+  
+  .search-input .search-icon {
+    position: absolute;
+    top: 50%;
+    left: 5px;
+    transform: translateY(-50%);
+  }
+
+  .search-icon svg{
+    font-size: 16px;
+
+  }

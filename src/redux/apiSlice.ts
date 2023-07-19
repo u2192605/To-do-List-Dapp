@@ -2,18 +2,36 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { CategoryType } from "../Types/Category";
 import { TodoType } from "../Types/Todo";
 
+type SearchType = {
+  categories?: CategoryType[];
+  todos?: TodoType[];
+};
+
 export const api = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:5000/" }),
   tagTypes: ["Categories", "Todos"],
-  endpoints: (  builder) => ({
-    getCategories: builder.query({
+  endpoints: (builder) => ({
+    getCategories: builder.query<CategoryType[], void>({
       query: () => `categories/`,
-      providesTags: ["Categories"],
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.map(({ id }) => ({ type: "Categories" as const, id })),
+              { type: "Categories", id: "LIST" },
+            ]
+          : [{ type: "Categories", id: "LIST" }],
     }),
     getCategoryByID: builder.query<CategoryType, string>({
       query: (ID) => `categories/${ID}?_embed=todos`,
-      providesTags: ["Todos"],
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.todos.map(({ id }) => ({ type: "Todos" as const, id })),
+              { type: "Todos", id: "LIST" },
+              { type: "Categories", id: result.id },
+            ]
+          : [{ type: "Todos", id: "List" }],
     }),
     addCategory: builder.mutation<CategoryType, Partial<CategoryType>>({
       query: (body) => {
@@ -23,42 +41,59 @@ export const api = createApi({
           body,
         };
       },
-      invalidatesTags: ["Categories"],
+      invalidatesTags: [{ type: "Categories", id: "LIST" }],
     }),
-    removeCategory: builder.mutation<{success: boolean, id:string}, string>({
-      query: (id) =>{
-        return{
+    removeCategory: builder.mutation<{ success: boolean; id: string }, string>({
+      query: (id) => {
+        return {
           url: `categories/${id}`,
-          method: "DELETE"
-        }
+          method: "DELETE",
+        };
       },
-      invalidatesTags: ['Categories', "Todos"]
+      invalidatesTags: [
+        { type: "Categories", id: "LIST" },
+        { type: "Todos", id: "LIST" },
+      ],
     }),
 
     addTodo: builder.mutation<TodoType, Partial<TodoType>>({
-      query: (body)=>{
-        return{
+      query: (body) => {
+        return {
           url: "todos/",
           method: "POST",
-          body, 
-        }
+          body,
+        };
       },
-      invalidatesTags: ['Todos'],
+      invalidatesTags: [{ type: "Todos", id: "LIST" }],
     }),
 
-    removeTodo: builder.mutation<{success:Boolean, id:string}, string>({
-      query: (id) =>{
-        return{
+    removeTodo: builder.mutation<{ success: Boolean; id: string }, string>({
+      query: (id) => {
+        return {
           url: `todos/${id}`,
-          method: 'DELETE',
-        }
+          method: "DELETE",
+        };
       },
-      invalidatesTags: ['Todos'],
-    })
+      invalidatesTags: [{ type: "Todos", id: "LIST" }],
+    }),
+    updateTodo: builder.mutation<
+      TodoType,
+      Partial<TodoType> & Pick<TodoType, "id">
+    >({
+      query: ({ id, ...patch }) => {
+        return {
+          url: `todos/${id}`,
+          method: "PATCH",
+          body: patch,
+        };
+      },
+      invalidatesTags: (result, error, arg) => [{ type: "Todos", id: arg.id }],
+    }),
   }),
 });
 
 export const {
+  useUpdateTodoMutation,
   useRemoveTodoMutation,
   useRemoveCategoryMutation,
   useAddTodoMutation,

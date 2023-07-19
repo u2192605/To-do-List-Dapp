@@ -7,7 +7,7 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import { SideBar } from './Components/SideBar';
-import {  store } from './redux/store'
+import { store } from './redux/store'
 import { Provider } from 'react-redux';
 import { TodoList } from './Pages/TodoList';
 import { api } from './redux/apiSlice';
@@ -21,8 +21,8 @@ const router = createBrowserRouter([
       {
         path: 'categories/',
         element: <CategoryList />,
-        loader: async ({ params }) => {
-          const p = store.dispatch(api.endpoints.getCategories.initiate(params))
+        loader: async () => {
+          const p = store.dispatch(api.endpoints.getCategories.initiate())
           try {
             const response = await p.unwrap();
             return response;
@@ -37,11 +37,9 @@ const router = createBrowserRouter([
         path: 'categories/:ID',
         element: <TodoList />,
         loader: async ({ params }) => {
-          console.log(params.ID, 'id')
           const p = store.dispatch(api.endpoints.getCategoryByID.initiate(params.ID ?? ''))
           try {
             const response = await p.unwrap();
-            console.log(response, 're')
             return response;
           } catch (error) {
             return error;

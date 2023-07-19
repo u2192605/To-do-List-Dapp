@@ -1,7 +1,6 @@
 import React, { FC } from "react";
 import './Card.css'
 import { Link } from "react-router-dom";
-import { inherits } from "util";
 
 interface Props {
     children: React.ReactNode

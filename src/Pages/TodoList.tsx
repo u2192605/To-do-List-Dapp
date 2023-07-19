@@ -11,7 +11,6 @@ export const TodoList = () => {
     const { ID } = useParams();
     const { data, error, isLoading } = useGetCategoryByIDQuery(ID ?? '')
     const [addTodo, result] = useAddTodoMutation();
-    console.log(data, 'd')
     // const dispatch = useDispatch()
     const handleAddItem = (item: ItemType) => {
         const id = uuidv4()
@@ -28,7 +27,7 @@ export const TodoList = () => {
                 <h3>{data?.name}</h3>
                 {data?.todos.map((value) => {
                     return (
-                        <Todo todo={value}></Todo>
+                        <Todo todo={value} key={value.id}></Todo>
                     )
                 })}
             </Card>
