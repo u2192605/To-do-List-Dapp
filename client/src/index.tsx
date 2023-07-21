@@ -6,17 +6,17 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
-import { SideBar } from './Components/SideBar';
 import { store } from './redux/store'
 import { Provider } from 'react-redux';
 import { TodoList } from './Pages/TodoList';
 import { api } from './redux/apiSlice';
 import { CategoryList } from './Pages/CategoryList';
+import { Home } from './Pages/Home';
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <SideBar />,
+    element: <Home />,
     children: [
       {
         path: 'categories/',
@@ -47,9 +47,9 @@ const router = createBrowserRouter([
             p.unsubscribe()
           }
         },
-      }
+      },
     ]
-  }
+  },
 ])
 
 const root = ReactDOM.createRoot(

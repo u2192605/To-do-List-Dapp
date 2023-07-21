@@ -1,11 +1,13 @@
-import React, { Fragment } from "react";
-import { CategoryList } from "./CategoryList";
-import { AddItem } from "../Components/addItem";
+import { SideBar } from "../Components/SideBar";
+import { TopBar } from "../Components/TopBar";
+import { Outlet } from "react-router-dom";
 
-export const Main = () => {
+export const Home = () => {
     return (
         <>
-            <CategoryList />
+            <TopBar/>
+            <SideBar />
+            <Outlet/>
         </>
     )
 }
