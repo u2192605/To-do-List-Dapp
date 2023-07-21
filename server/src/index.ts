@@ -3,6 +3,7 @@ import { connectToDB, getDB } from "./db";
 import { getExpressApp, initExpressApp } from "./app";
 import { Db } from "mongodb";
 import { getCategoriesRouter } from "./routes/categories_routes";
+import { getTodosRouter } from "./routes/todos_routes";
 
 let app: Express;
 const PORT = 5000;
@@ -14,8 +15,8 @@ app = getExpressApp();
 //db connection
 connectToDB((error?: Error) => {
   if (!error) {
-    const categoriesRouter = getCategoriesRouter();
-    app.use("/api/categories", categoriesRouter);
+    app.use("/api/categories", getCategoriesRouter());
+    app.use("/api/todos",getTodosRouter());
     app.listen(PORT, () => {
       console.log(`listening on ${PORT}`);
     });
