@@ -10,13 +10,13 @@ export const initCategoriesService = () =>{
 
 export const getCategories = async () => {
   const collection: Collection<Category> = db.collection("categories");
-  const categories = await collection.find().toArray();
+  const categories = collection.find().toArray();
   return categories;
 };
 
 export const getCategoryByID = async (ID: string) => {
   const collection: Collection<Category> = db.collection("categories");
-  const category = await collection.findOne({
+  const category =  collection.findOne({
     _id: new ObjectId(ID),
   });
   return category;
@@ -24,13 +24,13 @@ export const getCategoryByID = async (ID: string) => {
 
 export const deleteCategoryByID = async (ID: string) => {
   const collection: Collection<Category> = db.collection("categories");
-  const result = await collection.deleteOne({ _id: new ObjectId(ID) });
+  const result =  collection.deleteOne({ _id: new ObjectId(ID) });
   return result;
 };
 
 export const updateCategory = async (ID: string, updates: Category) => {
   const collection: Collection<Category> = db.collection("categories");
-  const result = await collection.updateOne(
+  const result =  collection.updateOne(
     { _id: new ObjectId(ID) },
     { $set: updates }
   );
@@ -39,6 +39,6 @@ export const updateCategory = async (ID: string, updates: Category) => {
 
 export const addCategory = async (category: Category) => {
   const collection: Collection<Category> = db.collection("categories");
-  const result = await collection.insertOne(category);
+  const result =  collection.insertOne(category);
   return result;
 };
