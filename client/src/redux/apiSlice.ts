@@ -9,7 +9,7 @@ type SearchType = {
 
 export const api = createApi({
   reducerPath: "api",
-  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:5000/" }),
+  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:5000/api/" }),
   tagTypes: ["Categories", "Todos"],
   endpoints: (builder) => ({
     getCategories: builder.query<CategoryType[], void>({
@@ -17,21 +17,10 @@ export const api = createApi({
       providesTags: (result) =>
         result
           ? [
-              ...result.map(({ id }) => ({ type: "Categories" as const, id })),
+              ...result.map(({ _id }) => ({ type: "Categories" as const, id: _id })),
               { type: "Categories", id: "LIST" },
             ]
           : [{ type: "Categories", id: "LIST" }],
-    }),
-    getCategoryByID: builder.query<CategoryType, string>({
-      query: (ID) => `categories/${ID}?_embed=todos`,
-      providesTags: (result) =>
-        result
-          ? [
-              ...result.todos.map(({ id }) => ({ type: "Todos" as const, id })),
-              { type: "Todos", id: "LIST" },
-              { type: "Categories", id: result.id },
-            ]
-          : [{ type: "Todos", id: "List" }],
     }),
     addCategory: builder.mutation<CategoryType, Partial<CategoryType>>({
       query: (body) => {
@@ -56,6 +45,22 @@ export const api = createApi({
       ],
     }),
 
+    getTodosByCategoryID: builder.query<TodoType[], string>({
+      query: (categoryID)=>{
+        return {
+          url: `todos/${categoryID}`,
+          method: "GET",
+        };
+      },
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.map(({ _id }) => ({ type: "Todos" as const, id: _id })),
+              { type: "Todos", id: "LIST" },
+            ]
+          : [{ type: "Todos", id: "LIST" }],
+    }),
+
     addTodo: builder.mutation<TodoType, Partial<TodoType>>({
       query: (body) => {
         return {
@@ -78,16 +83,18 @@ export const api = createApi({
     }),
     updateTodo: builder.mutation<
       TodoType,
-      Partial<TodoType> & Pick<TodoType, "id">
+      Partial<TodoType> & Pick<TodoType, "_id">
     >({
-      query: ({ id, ...patch }) => {
+      query: ({ _id, ...patch }) => {
         return {
-          url: `todos/${id}`,
+          url: `todos/${_id}`,
           method: "PATCH",
           body: patch,
         };
       },
-      invalidatesTags: (result, error, arg) => [{ type: "Todos", id: arg.id }],
+      invalidatesTags: (result, error, arg) => {
+        return [{ type: "Todos", id: arg._id }]
+      }
     }),
   }),
 });
@@ -98,6 +105,6 @@ export const {
   useRemoveCategoryMutation,
   useAddTodoMutation,
   useGetCategoriesQuery,
-  useGetCategoryByIDQuery,
   useAddCategoryMutation,
+  useGetTodosByCategoryIDQuery
 } = api;

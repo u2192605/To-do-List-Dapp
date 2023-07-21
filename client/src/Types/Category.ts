@@ -1,7 +1,7 @@
 import { TodoType } from "./Todo";
 
 export type CategoryType = {
-    id: string;
+    _id: string;
     name: string;
     color: string;
     todos:TodoType[];

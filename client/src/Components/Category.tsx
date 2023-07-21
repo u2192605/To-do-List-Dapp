@@ -13,10 +13,10 @@ export const Category: FC<Props> = ({ category }) => {
 
     const handleRemove = (e:React.MouseEvent<HTMLButtonElement>)=>{
         e.preventDefault()
-        removeCategory(category.id)
+        removeCategory(category._id)
     }
     return (
-        <Card vertical={false} to={category.id} bg={category.color}>
+        <Card vertical={false} to={category._id} bg={category.color} state={{name: category.name}}>
             <h4 className="fit-content">{category.name}</h4>
             <button className="fit-content"
             onClick={handleRemove}>

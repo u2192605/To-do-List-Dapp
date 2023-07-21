@@ -7,8 +7,9 @@ interface Props {
     vertical: boolean
     to?: string
     bg?: string
+    state?: any
 }
-export const Card: FC<Props> = ({ children, vertical, to, bg }) => {
+export const Card: FC<Props> = ({ children, vertical, to, bg, state }) => {
     return vertical ? (
         <div className={"card-vertical"}>
             {children}
@@ -17,7 +18,7 @@ export const Card: FC<Props> = ({ children, vertical, to, bg }) => {
         (
             <div className={"card-horizontal"} style={{backgroundColor: bg??"FFFFFFF"}}>
                 {to ?
-                    <Link to={to} className="link">
+                    <Link to={to} state={state} className="link">
                         {children}
                     </Link> : children
 

@@ -1,6 +1,6 @@
 export type TodoType = {
-    id: string;
+    _id: string;
     name:string;
     finished: boolean;
-    categoryId?:string;
+    categoryID?:string;
 }

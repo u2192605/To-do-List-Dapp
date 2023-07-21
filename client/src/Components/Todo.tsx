@@ -13,12 +13,12 @@ export const Todo: FC<Props> = ({ todo }) => {
     const [updateTodo, updateResult] = useUpdateTodoMutation()
     const handleRemove = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault()
-        removeTodo(todo.id)
+        removeTodo(todo._id)
     }
 
     const handleCompletedChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         event.preventDefault()
-        updateTodo({ id: todo.id, finished: event.target.checked })
+        updateTodo({ _id: todo._id, finished: event.target.checked })
     }
 
     return (

@@ -1,6 +1,5 @@
 import { Card } from "../Components/Card";
 // import { Category } from "../Components/category";
-import { v4 as uuidv4 } from 'uuid';
 
 import { AddItem } from "../Components/addItem";
 import { ItemType } from "../Types/Item";
@@ -15,9 +14,7 @@ export const CategoryList = () => {
     const [addCategory, result] = useAddCategoryMutation();
 
     const handleAddItem = (item: ItemType) => {
-        const id = uuidv4()
         addCategory({
-            id,
             name: item.content,
             color: item.color ?? '#FFFFFF'
         })
@@ -28,7 +25,7 @@ export const CategoryList = () => {
             <Card vertical={true}>
                 <h3>Categories</h3>
                 {data?.map((value: CategoryType) =>
-                    <Category category={value} key={value.id}></Category>
+                    <Category category={value} key={value._id}></Category>
                 )}
             </Card>
             <AddItem canChooseColor={true}

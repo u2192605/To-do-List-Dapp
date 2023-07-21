@@ -37,7 +37,7 @@ const router = createBrowserRouter([
         path: 'categories/:ID',
         element: <TodoList />,
         loader: async ({ params }) => {
-          const p = store.dispatch(api.endpoints.getCategoryByID.initiate(params.ID ?? ''))
+          const p = store.dispatch(api.endpoints.getTodosByCategoryID.initiate(params.ID ?? ''))
           try {
             const response = await p.unwrap();
             return response;
