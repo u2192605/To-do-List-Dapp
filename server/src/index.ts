@@ -1,31 +1,22 @@
-import { Request, Response, NextFunction, Express } from "express";
-import { connectToDB, getDB } from "./db";
-import { getExpressApp, initExpressApp } from "./app";
-import { Db } from "mongodb";
-import { getCategoriesRouter } from "./routes/categories_routes";
-import { getTodosRouter } from "./routes/todos_routes";
+import express, { Request, Response, NextFunction, Express } from "express";
+import mongoose from "mongoose";
+import { categoriesRouter } from "./routes/categories";
+import { todosRouter } from "./routes/todos";
+import bodyParser from 'body-parser'
+import cors from 'cors'
 
 let app: Express;
 const PORT = 5000;
-let db: Db;
+// let db: Db;
 
-initExpressApp();
-app = getExpressApp();
+app = express();
+app.use(bodyParser.json());
+app.use(cors({
+  origin: 'http://localhost:3000'
+}))
+app.use("/api/categories", categoriesRouter);
+app.use("/api/todos", todosRouter);
 
-//db connection
-connectToDB((error?: Error) => {
-  if (!error) {
-    app.use("/api/categories", getCategoriesRouter());
-    app.use("/api/todos",getTodosRouter());
-    app.listen(PORT, () => {
-      console.log(`listening on ${PORT}`);
-    });
-    console.log("here");
-    db = getDB();
-  }
-});
-
-//routes
 app.get("/", (req: Request, res: Response, next: NextFunction): void => {
   try {
     res.send("hello world");
@@ -33,3 +24,19 @@ app.get("/", (req: Request, res: Response, next: NextFunction): void => {
     next(error);
   }
 });
+
+//connect to db
+const connectToDB = async () => {
+  try {
+    await mongoose.connect("mongodb://127.0.0.1:27017/")
+    app.listen(PORT, () => {
+      console.log(`listening on ${PORT}`);
+    });
+  } catch (error) {
+    console.log(error)
+
+  }
+
+}
+
+connectToDB()
