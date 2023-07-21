@@ -4,3 +4,12 @@
     width: 100%;
 }
 
+.content-to-start{
+    justify-content: flex-start !important;
+}
+
+.margin-2{
+    /* margin-left: 2px; */
+    margin-right: 10px;
+}
+

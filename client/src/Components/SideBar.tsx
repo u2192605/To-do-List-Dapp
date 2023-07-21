@@ -13,14 +13,17 @@ export const SideBar = () => {
                 <h4>Todo App</h4>
                 <Search/>
                 <nav className="nav-menu">
-                    <Link to={'categories'} className="content-centered link">
-                        <FontAwesomeIcon icon={faHome} />
+                    <Link to={'categories'} className="content-to-start link">
+                        <FontAwesomeIcon icon={faHome} className="margin-2"/>
+                        Home
                     </Link>
-                    <Link to={''} className="content-centered link">
-                        <FontAwesomeIcon icon={faUser} />
+                    <Link to={''} className="content-to-start link">
+                        <FontAwesomeIcon icon={faUser} className="margin-2"/>
+                        Profile
                     </Link>
-                    <Link to={''} className="content-centered link">
-                        <FontAwesomeIcon icon={faGear} />
+                    <Link to={''} className="content-to-start link">
+                        <FontAwesomeIcon icon={faGear} className="margin-2"/>
+                        Setting
                     </Link>
                 </nav>
             </div>
