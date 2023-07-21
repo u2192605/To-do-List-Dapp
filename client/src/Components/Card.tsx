@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import './Card.css'
+import styles from './styles/Card.module.css'
 import { Link } from "react-router-dom";
 
 interface Props {
@@ -11,14 +11,14 @@ interface Props {
 }
 export const Card: FC<Props> = ({ children, vertical, to, bg, state }) => {
     return vertical ? (
-        <div className={"card-vertical"}>
+        <div className={styles.cardVertical}>
             {children}
         </div>
     ) :
         (
-            <div className={"card-horizontal"} style={{backgroundColor: bg??"FFFFFFF"}}>
+            <div className={styles.cardHorizontal} style={{backgroundColor: bg??"FFFFFFF"}}>
                 {to ?
-                    <Link to={to} state={state} className="link">
+                    <Link to={to} state={state} className={styles.link}>
                         {children}
                     </Link> : children
 

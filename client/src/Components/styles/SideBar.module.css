@@ -1,4 +1,4 @@
-.side-bar {
+.sideBar {
     position: sticky;
     top: 0px;
     left: 0px;
@@ -13,22 +13,22 @@
     color: #282c34;
 }
 
-.side-bar h4{
-    justify-self: center;
-}
-
-.nav-menu{
+.navMenu{
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
+    align-items: flex-start;
     width: 100%;
     height: 100%;
+    padding: 10px;
 }
 
-.nav-menu > .link{
-    margin: 0.625rem 0;
-}
 
-.content-centered{
-    justify-content: center !important;
+
+.navigationLink{
+    text-decoration: none;
+    color: inherit;
+}
+.navigationLink *{
+    margin-right: 10px
 }

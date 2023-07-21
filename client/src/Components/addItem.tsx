@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux'
-import './addItem.css'
+import styles from './styles/addItem.module.css'
 import { RootState } from '../redux/store'
 import { setColor, setContent } from '../redux/itemSlice'
 import React, { FC, useState } from 'react'
@@ -42,7 +42,7 @@ export const AddItem: FC<Props> = ({ onAddItem, canChooseColor }) => {
     }
     const display = clicked ? "flex" : "none";
     return (
-        <div className={'floating-action-btn'}
+        <div className={styles.floatingActionBtn}
             onClick={handleOnNewClicked}
         >
             {clicked? <FontAwesomeIcon icon={faMinus}/>: <FontAwesomeIcon icon={faPlus}/>}
@@ -57,14 +57,14 @@ export const AddItem: FC<Props> = ({ onAddItem, canChooseColor }) => {
                 <div>
                     {
                         canChooseColor?
-                            (<input type="color" className='btn'
+                            (<input type="color" className={styles.btn}
                                 value={color}
                                 onChange={(event) => handleColorChange(event)}
                                 onClick={(e) => e.stopPropagation()}
                             />): null
 
                     }
-                    <input type="button" className='btn'
+                    <input type="button" className={styles.btn}
                         onClick={handleOnAddItem} value='Add'
                     />
 

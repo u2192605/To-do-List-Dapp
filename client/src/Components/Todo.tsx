@@ -1,7 +1,7 @@
 import React, { FC } from "react"
 import { TodoType } from "../Types/Todo"
 import { Card } from "./Card"
-import "./Todo.css"
+import styles from "./styles/Todo.module.css"
 import { useRemoveTodoMutation, useUpdateTodoMutation } from "../redux/apiSlice"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faTrash } from "@fortawesome/free-solid-svg-icons"
@@ -23,11 +23,11 @@ export const Todo: FC<Props> = ({ todo }) => {
 
     return (
         <Card vertical={false}>
-            <div className="horizontal-flex">
+            <div className={styles.horizontalFlex}>
                 <input type="checkbox" checked={todo.finished} onChange={handleCompletedChange} />
                 <h4>{todo.name}</h4>
             </div>
-            <button className="fit-content" onClick={handleRemove}>
+            <button className={styles.fitContent} onClick={handleRemove}>
                 <FontAwesomeIcon icon={faTrash} />
             </button>
         </Card>

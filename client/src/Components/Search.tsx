@@ -1,6 +1,6 @@
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import "./Search.css"
+import styles from "./styles/Search.module.css"
 import React, { useState } from "react"
 
 export const Search = () => {
@@ -13,9 +13,9 @@ export const Search = () => {
 
 
     return (
-        <div className="search-input">
+        <div className={styles.searchInput}>
             <input type="search" value={searchTextChange} onChange={handleOnSearchTextChange} />
-            <div className="search-icon">
+            <div className={styles.searchIcon}>
                 <FontAwesomeIcon icon={faMagnifyingGlass} />
             </div>
         </div>

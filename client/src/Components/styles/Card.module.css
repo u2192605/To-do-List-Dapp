@@ -1,4 +1,4 @@
-.card-vertical{
+.cardVertical{
     /* height: 100%;
     width: 100%; */
     width: 88%;
@@ -15,7 +15,7 @@
     /* flex: 1; */
 }
 
-.card-horizontal{
+.cardHorizontal{
     width: 88%;
     display: flex;
     flex-direction: row;
