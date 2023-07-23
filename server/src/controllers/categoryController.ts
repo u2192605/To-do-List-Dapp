@@ -3,8 +3,9 @@ import { Category } from "../models/categoryModel";
 // get
 
 export const getCategories = async (req: Request, res: Response) => {
+    const userID = (req as any).user?._id
     try {
-        const categories = await Category.find();
+        const categories = await Category.find({userID});
         res.status(200).json(categories);
     } catch (error) {
         console.log(error);
@@ -16,6 +17,7 @@ export const getCategories = async (req: Request, res: Response) => {
 //post
 export const addCategory =  async (req: Request, res: Response) => {
     const category = req.body;
+    category.userID = (req as any).user?._id
     try {
         const result = await Category.create(category);
         res.status(201).json(result);
