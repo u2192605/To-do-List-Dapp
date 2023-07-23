@@ -4,9 +4,9 @@ import { categoriesRouter } from "./routes/categories";
 import { todosRouter } from "./routes/todos";
 import bodyParser from 'body-parser'
 import cors from 'cors'
-
+import { usersRouter } from "./routes/users";
+require('dotenv').config('./.env')
 let app: Express;
-const PORT = 5000;
 // let db: Db;
 
 app = express();
@@ -16,6 +16,7 @@ app.use(cors({
 }))
 app.use("/api/categories", categoriesRouter);
 app.use("/api/todos", todosRouter);
+app.use("/api/users", usersRouter);
 
 app.get("/", (req: Request, res: Response, next: NextFunction): void => {
   try {
@@ -29,8 +30,8 @@ app.get("/", (req: Request, res: Response, next: NextFunction): void => {
 const connectToDB = async () => {
   try {
     await mongoose.connect("mongodb://127.0.0.1:27017/")
-    app.listen(PORT, () => {
-      console.log(`listening on ${PORT}`);
+    app.listen(process.env.PORT, () => {
+      console.log(`listening on ${process.env.PORT}`);
     });
   } catch (error) {
     console.log(error)
