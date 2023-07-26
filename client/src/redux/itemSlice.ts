@@ -8,6 +8,7 @@ export interface ItemStateType {
 const initialState: ItemStateType = {
   input: {
     content: "",
+    color: '#FFFFFF'
   },
 };
 
@@ -25,5 +26,4 @@ export const itemSlice = createSlice({
 });
 
 export const { setContent, setColor } = itemSlice.actions;
-
 export default itemSlice.reducer;

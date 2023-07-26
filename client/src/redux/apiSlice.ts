@@ -1,32 +1,61 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+
 import { CategoryType } from "../Types/Category";
 import { TodoType } from "../Types/Todo";
+import { AuthanticationResult } from "../Types/SignUpResult";
+import { User } from "../Types/User";
+import { RootState } from "./store";
 
 type SearchType = {
   categories?: CategoryType[];
   todos?: TodoType[];
 };
 
+interface SignUpUser extends User {
+  password: string,
+}
+
+
+interface GeneralRequest<T> {
+  body: Partial<T>
+}
+interface AuthorizedRequest<T> extends GeneralRequest<T> {
+  token: string,
+}
+
 export const api = createApi({
   reducerPath: "api",
-  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:5000/api/" }),
-  tagTypes: ["Categories", "Todos"],
+  baseQuery: fetchBaseQuery({
+    baseUrl: "http://localhost:5000/api/",
+    prepareHeaders: (headers, { getState }) => {
+      const auth = (getState() as RootState).auth
+      if (auth) {
+        headers.set(`authorization`, `Bearer ${auth.token}`)
+      }
+      return headers
+    }
+  }),
+  tagTypes: ["Categories", "Todos", "Users"],
   endpoints: (builder) => ({
     getCategories: builder.query<CategoryType[], void>({
-      query: () => `categories/`,
+      query: () => {
+        return {
+          url: `categories/`,
+        }
+      },
       providesTags: (result) =>
         result
           ? [
-              ...result.map(({ _id }) => ({ type: "Categories" as const, id: _id })),
-              { type: "Categories", id: "LIST" },
-            ]
+            ...result.map(({ _id }) => ({ type: "Categories" as const, id: _id })),
+            { type: "Categories", id: "LIST" },
+          ]
           : [{ type: "Categories", id: "LIST" }],
     }),
     addCategory: builder.mutation<CategoryType, Partial<CategoryType>>({
       query: (body) => {
         return {
           url: "categories/",
-          method: "POST",
+          method: 'POST',
           body,
         };
       },
@@ -46,7 +75,7 @@ export const api = createApi({
     }),
 
     getTodosByCategoryID: builder.query<TodoType[], string>({
-      query: (categoryID)=>{
+      query: (categoryID) => {
         return {
           url: `todos/${categoryID}`,
           method: "GET",
@@ -55,9 +84,9 @@ export const api = createApi({
       providesTags: (result) =>
         result
           ? [
-              ...result.map(({ _id }) => ({ type: "Todos" as const, id: _id })),
-              { type: "Todos", id: "LIST" },
-            ]
+            ...result.map(({ _id }) => ({ type: "Todos" as const, id: _id })),
+            { type: "Todos", id: "LIST" },
+          ]
           : [{ type: "Todos", id: "LIST" }],
     }),
 
@@ -96,6 +125,25 @@ export const api = createApi({
         return [{ type: "Todos", id: arg._id }]
       }
     }),
+    signUp: builder.mutation<AuthanticationResult, SignUpUser & Omit<SignUpUser, '_id'>>({
+      query: (user) => {
+        return {
+          url: `users/signup/`,
+          method: 'POST',
+          body: user
+        }
+      },
+    }),
+    login: builder.mutation<AuthanticationResult,
+      { name: string, password: string }>({
+        query: (credentials) => {
+          return {
+            url: `users/login`,
+            method: 'POST',
+            body: credentials,
+          }
+        }
+      })
   }),
 });
 
@@ -106,5 +154,7 @@ export const {
   useAddTodoMutation,
   useGetCategoriesQuery,
   useAddCategoryMutation,
-  useGetTodosByCategoryIDQuery
+  useGetTodosByCategoryIDQuery,
+  useSignUpMutation,
+  useLoginMutation,
 } = api;
