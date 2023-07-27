@@ -1,0 +1,9 @@
+[build]
+  command = "npm run build" 
+
+[[plugins]]
+  package = "netlify-plugin-express"
+
+[build.publish]
+  publish = "client/build"
+  functions = "server/dist"
