@@ -6,9 +6,12 @@ import { Provider } from "react-redux";
 import { Root } from "./Root";
 
 
+const rootElement = document.getElementById("root") as HTMLElement
+rootElement.classList.add('h-full', 'w-full', 'mx-auto', 'p-4')
 const root = ReactDOM.createRoot(
-  document.getElementById("root") as HTMLElement
+  rootElement
 );
+
 root.render(
   // <React.StrictMode>
   <Provider store={store}>

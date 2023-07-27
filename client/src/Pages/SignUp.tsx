@@ -1,5 +1,4 @@
 import { Form, Link } from "react-router-dom";
-import styles from "./styles/SignUp.module.css";
 import { useSignUpMutation } from "../redux/apiSlice";
 
 export const SignUp = () => {
@@ -7,34 +6,58 @@ export const SignUp = () => {
 
   const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const data =  new FormData(event.target as  HTMLFormElement)
-    console.log(data);
+    const data = new FormData(event.target as HTMLFormElement);
   };
 
   return (
-    <div className={styles.formContainer}>
-      <h3>SignUp</h3>
-      <Form className={styles.form}  method='POST' action='/signup'>
-        <div>
+    <div className="flex flex-col justify-start items-center w-auto h-auto mx-auto max-w-md">
+      <div className="text-2xl mt-2 mb-2">Signup</div>
+      <Form
+        className="flex flex-col space-y-6 justify-center items-start rounded-md border-2
+         border-black p-4 mx-auto"
+        method="POST"
+        action="/signup"
+      >
+        <div className="flex space-x-2 mx-auto justify-evenly">
           <input
+            className="rounded-md border-2 border-black p-2 w-1/2
+            hover:outline-teal-500 hover:border-teal-500
+            focus:outline-teal-500 focus-within:border-teal-500
+            hover:shadow-xl
+            "
             type="text"
-            placeholder="first name"
+            placeholder="First Name"
             name="firstName"
             required={true}
             pattern="[a-zA-Z]+"
           />
           <input
+            className="rounded-md border-2 border-black p-2 w-1/2
+            hover:outline-teal-500 hover:border-teal-500
+            focus:outline-teal-500 focus-within:border-teal-500
+            hover:shadow-xl"
             type="text"
-            placeholder="last name"
+            placeholder="Last Name"
             name="lastName"
             required={true}
             pattern="[a-zA-Z]+"
           />
         </div>
-        <input type="email" placeholder="Email" name="email" 
-        required={true} 
+        <input
+          className="rounded-md border-2 border-black p-2 w-full
+            hover:outline-teal-500 hover:border-teal-500
+            focus:outline-teal-500 focus-within:border-teal-500
+            hover:shadow-xl"
+          type="email"
+          placeholder="Email"
+          name="email"
+          required={true}
         />
         <input
+          className="rounded-md border-2 border-black p-2 w-full
+            hover:outline-teal-500 hover:border-teal-500
+            focus:outline-teal-500 focus-within:border-teal-500
+            hover:shadow-xl"
           type="password"
           placeholder="Password"
           name="password"
@@ -46,30 +69,45 @@ export const SignUp = () => {
           placeholder="Confirm password"
           name="confirmPassword"
         /> */}
-        <label>Gender</label>
-        <div>
-          <input
-            type="radio"
-            name="gender"
-            value="male"
-            id="male"
-            required={true}
-          />
-          <label htmlFor="male">male</label>
-          <input
-            type="radio"
-            name="gender"
-            value="male"
-            id="male"
-            required={true}
-          />
-          <label htmlFor="male">female</label>
+        <div className="text-base">Gender</div>
+        <div className="flex space-x-4 justify-start w-full">
+          <div className="flex space-x-2">
+            <input
+              type="radio"
+              name="gender"
+              value="male"
+              id="male"
+              required={true}
+            />
+            <label htmlFor="male">male</label>
+          </div>
+          <div className="flex space-x-2">
+            <input
+              type="radio"
+              name="gender"
+              value="female"
+              id="female"
+              required={true}
+            />
+            <label htmlFor="female">female</label>
+          </div>
         </div>
 
-        <input type="submit" value="Signup" />
-        <div>
-          <Link to={'/login'}>Login</Link>
-        </div>
+        <input
+          className="cursor-pointer rounded-md border-2 border-black p-2 w-full
+            hover:outline-teal-500 hover:border-teal-500
+            focus:outline-teal-500 focus-within:border-teal-500
+            hover:shadow-xl"
+          type="submit"
+          value="Signup"
+        />
+        <button className="rounded-md border-2 border-black p-2 w-full
+            hover:outline-teal-500 hover:border-teal-500
+            focus:outline-teal-500 focus-within:border-teal-500
+            hover:shadow-xl"
+        >
+          <Link to={"/login"}>Login</Link>
+        </button>
       </Form>
     </div>
   );

@@ -24,9 +24,17 @@ export const CategoryList = () => {
   };
 
   return (
-    <>
-      <Card vertical={true}>
-        <h3>Categories</h3>
+    <div className="flex flex-col items-center justify-center">
+      <Card
+        className="flex flex-col justify-start items-center w-7/12 h-full
+        mx-auto space-y-6"
+        vertical={true}
+      >
+        <div
+          className="text-2xl mt-6"
+        >
+          Categories
+        </div>
         {data?.map((value: CategoryType) => (
           <Category category={value} key={value._id}></Category>
         ))}
@@ -35,6 +43,6 @@ export const CategoryList = () => {
         canChooseColor={true}
         onAddItem={(item) => handleAddItem(item)}
       />
-    </>
+    </div>
   );
 };

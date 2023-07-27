@@ -1,5 +1,6 @@
 import {
   createBrowserRouter,
+  Navigate,
   redirect,
   RouterProvider,
 } from "react-router-dom";
@@ -111,10 +112,9 @@ const loginLoader = () => {
 const signUpLoader = loginLoader;
 
 const homeLoader = () => {
-  // const user = store.getState().auth
-  // // if(!user) return redirect('/login/')
-  return null;
-  return redirect("categories");
+  const token = store.getState().auth.token
+  if(token) throw redirect("/categories")
+  else throw redirect("/login")
 };
 
 const logoutAction = async () => {
@@ -136,6 +136,10 @@ const router = createBrowserRouter([
     element: <Home />,
     // loader: homeLoader,
     children: [
+      {
+        path: '',
+        element: <Navigate to="categories"/>
+      },
       {
         path: "categories/",
         element: <CategoryList />,

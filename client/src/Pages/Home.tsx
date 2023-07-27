@@ -1,13 +1,11 @@
-import { SideBar } from "../Components/SideBar";
-import { TopBar } from "../Components/TopBar";
+import { NavBar } from "../Components/NavBar";
 import { Outlet } from "react-router-dom";
 
 export const Home = () => {
     return (
-        <>
-            <TopBar/>
-            <SideBar />
+        <div className="pt-16 justify-center items-center h-full">
+            <NavBar/>
             <Outlet/>
-        </>
+        </div>
     )
 }
