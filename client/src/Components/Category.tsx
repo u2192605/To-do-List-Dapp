@@ -16,12 +16,6 @@ export const Category: FC<Props> = ({ category }) => {
   };
   return (
     <Card
-      className="w-full h-12 flex justify-between items-center 
-      border-2 border-black rounded-md pl-4 pr-4
-      hover:outline-teal-500 hover:border-teal-500
-      focus:outline-teal-500 focus-within:border-teal-500
-      hover:shadow-xl"
-      vertical={false}
       to={category._id}
       bg={category.color}
       state={{ name: category.name }}

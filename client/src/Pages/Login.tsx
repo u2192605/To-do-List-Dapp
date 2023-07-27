@@ -39,12 +39,16 @@ export const Login = () => {
           type="submit"
           value={"Login"}
         />
-        <div className="cursor-pointer w-full border-2 border-black rounded-md p-2
+        <div
+          className="cursor-pointer w-full border-2 border-black rounded-md p-2
                hover:outline-teal-500 hover:border-teal-500
                 focus:outline-teal-500 focus-within:border-teal-500
                 hover:shadow-xl"
-         >
-          <Link to={"/signup"} className="flex w-full justify-center items-center">
+        >
+          <Link
+            to={"/signup"}
+            className="flex w-full justify-center items-center"
+          >
             Signup
           </Link>
         </div>

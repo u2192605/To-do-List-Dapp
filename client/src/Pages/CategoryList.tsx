@@ -1,6 +1,3 @@
-import { Card } from "../Components/Card";
-// import { Category } from "../Components/category";
-
 import { AddItem } from "../Components/addItem";
 import { ItemType } from "../Types/Item";
 import {
@@ -25,10 +22,9 @@ export const CategoryList = () => {
 
   return (
     <div className="flex flex-col items-center justify-center">
-      <Card
+      <div
         className="flex flex-col justify-start items-center w-7/12 h-full
         mx-auto space-y-6"
-        vertical={true}
       >
         <div
           className="text-2xl mt-6"
@@ -38,7 +34,7 @@ export const CategoryList = () => {
         {data?.map((value: CategoryType) => (
           <Category category={value} key={value._id}></Category>
         ))}
-      </Card>
+      </div>
       <AddItem
         canChooseColor={true}
         onAddItem={(item) => handleAddItem(item)}

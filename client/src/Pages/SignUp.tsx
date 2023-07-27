@@ -1,14 +1,5 @@
 import { Form, Link } from "react-router-dom";
-import { useSignUpMutation } from "../redux/apiSlice";
-
 export const SignUp = () => {
-  const [signup, result] = useSignUpMutation();
-
-  const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.target as HTMLFormElement);
-  };
-
   return (
     <div className="flex flex-col justify-start items-center w-auto h-auto mx-auto max-w-md">
       <div className="text-2xl mt-2 mb-2">Signup</div>
@@ -101,7 +92,8 @@ export const SignUp = () => {
           type="submit"
           value="Signup"
         />
-        <button className="rounded-md border-2 border-black p-2 w-full
+        <button
+          className="rounded-md border-2 border-black p-2 w-full
             hover:outline-teal-500 hover:border-teal-500
             focus:outline-teal-500 focus-within:border-teal-500
             hover:shadow-xl"

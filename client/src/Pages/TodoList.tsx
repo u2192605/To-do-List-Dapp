@@ -1,7 +1,6 @@
 import { Todo } from "../Components/Todo";
 import { Card } from "../Components/Card";
 
-import { v4 as uuidv4 } from "uuid";
 import { ItemType } from "../Types/Item";
 import {
   useAddTodoMutation,
@@ -15,7 +14,6 @@ export const TodoList = () => {
   const { state } = useLocation();
   const { data, error, isLoading } = useGetTodosByCategoryIDQuery(ID ?? "");
   const [addTodo, result] = useAddTodoMutation();
-  // const dispatch = useDispatch()
   const handleAddItem = (item: ItemType) => {
     addTodo({
       name: item.content,
@@ -25,10 +23,9 @@ export const TodoList = () => {
   };
   return (
     <>
-      <Card
+      <div
         className="flex flex-col justify-start items-center w-8/12 h-full
         mx-auto space-y-6"
-        vertical={true}
       >
         <div
           className="text-2xl mt-6"
@@ -37,7 +34,7 @@ export const TodoList = () => {
         {data?.map((value) => {
           return <Todo todo={value} key={value._id}></Todo>;
         })}
-      </Card>
+      </div>
       <AddItem
         onAddItem={(item) => {
           handleAddItem(item);
