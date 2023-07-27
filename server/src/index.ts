@@ -5,9 +5,8 @@ import { todosRouter } from "./routes/todos";
 import bodyParser from 'body-parser'
 import cors from 'cors'
 import { usersRouter } from "./routes/users";
-require('dotenv').config('./.env')
+require('dotenv').config('../.env')
 let app: Express;
-// let db: Db;
 
 app = express();
 app.use(bodyParser.json());
@@ -29,7 +28,7 @@ app.get("/", (req: Request, res: Response, next: NextFunction): void => {
 //connect to db
 const connectToDB = async () => {
   try {
-    await mongoose.connect("mongodb://127.0.0.1:27017/")
+    await mongoose.connect(process.env.MONGO_URI as string)
     app.listen(process.env.PORT, () => {
       console.log(`listening on ${process.env.PORT}`);
     });

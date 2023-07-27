@@ -29,7 +29,6 @@ userSchema.static('login', async function (email: string, password: string) {
 
     const user :IUser| null = await this.findOne({ email })
     if (!user) {
-        console.log('here')
         throw Error("Wrong email or password")
     }
     const result = await bcrypt.compare(password, user.password)
