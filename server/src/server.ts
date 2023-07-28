@@ -12,7 +12,7 @@ app = express();
 app.use(bodyParser.json());
 app.use(cors({
   origin: ['http://localhost:3000',
-    'https://to-do-list-delta-seven.vercel.app/'
+    'https://to-do-list-delta-seven.vercel.app'
   ]
 }))
 app.use("/api/categories", categoriesRouter);
