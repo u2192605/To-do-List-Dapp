@@ -5,13 +5,14 @@ import { todosRouter } from "./routes/todos";
 import bodyParser from 'body-parser'
 import cors from 'cors'
 import { usersRouter } from "./routes/users";
-require('dotenv').config('../.env')
+// require('dotenv').config('../.env')
 let app: Express;
 
 app = express();
 app.use(bodyParser.json());
 app.use(cors({
-  origin: 'http://localhost:3000'
+  origin: ['http://localhost:3000',
+    'https://to-do-list-xa8y.onrender.com',]
 }))
 app.use("/api/categories", categoriesRouter);
 app.use("/api/todos", todosRouter);
