@@ -24,6 +24,7 @@
     "mongodb": "^5.7.0",
     "mongoose": "^7.4.0",
     "save": "^2.9.0",
+    "server": "file:",
     "typescript": "^5.1.6"
   }
 }
