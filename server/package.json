@@ -5,7 +5,8 @@
   "main": "server.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "npm install && tsc -p tsconfig.json"
+    "build": "npm install && tsc -p tsconfig.json",
+    "start": "node server.ts"
   },
   "author": "",
   "license": "ISC",

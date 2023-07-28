@@ -26,7 +26,7 @@ interface AuthorizedRequest<T> extends GeneralRequest<T> {
 export const api = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://to-do-list-server-qteg.onrender.com/api/",
+    baseUrl: "https://to-do-list-server-zeta-beige.vercel.app/api/",
     prepareHeaders: (headers, { getState }) => {
       const auth = (getState() as RootState).auth
       if (auth) {
