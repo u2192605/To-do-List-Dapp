@@ -26,7 +26,7 @@ interface AuthorizedRequest<T> extends GeneralRequest<T> {
 export const api = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://to-do-list-server-qteg.onrender.com/ap/",
+    baseUrl: "https://to-do-list-server-qteg.onrender.com/api/",
     prepareHeaders: (headers, { getState }) => {
       const auth = (getState() as RootState).auth
       if (auth) {
