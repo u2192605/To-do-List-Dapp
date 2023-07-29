@@ -24,6 +24,7 @@ export const signUpUser = async (req: Request, res: Response) => {
                 token,
             })
     } catch (error: any) {
+        console.log(error)
         res.status(500).json({ error: error.message })
     }
 }

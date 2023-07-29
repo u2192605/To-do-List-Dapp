@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npm install && tsc -p tsconfig.json",
-    "start": "node server.ts"
+    "start": "nodemon src/server.ts"
   },
   "author": "",
   "license": "ISC",

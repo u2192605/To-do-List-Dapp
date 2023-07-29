@@ -20,4 +20,6 @@ const todoSchema = new Schema<ITodo, TodoModel>({
     userID: { type: String, required: true }
 })
 
+todoSchema.index({userID: 1, categoryID: 1})
+
 export const Todo = mongoose.model<ITodo, TodoModel>('Todo', todoSchema)

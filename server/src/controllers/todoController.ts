@@ -2,13 +2,22 @@ import { Request, Response } from "express";
 import { Todo } from "../models/todoModel";
 
 // get
-export const getTodosByCategoryID =  async (req: Request, res: Response) => {
+export const getTodosByCategoryID = async (req: Request, res: Response) => {
     const categoryID = req.params.categoryID
     const userID = (req as any).user?._id
+    const page = parseInt(req.query.page as string) || 0
+    const ELEMENTS_PER_PAGE = 4
     console.log(categoryID)
     try {
-        const categories = await Todo.find({categoryID, userID});
-        res.status(200).json(categories);
+        const [totalDocuments, todos] = await Promise.all([
+            Todo.countDocuments({ categoryID, userID }),
+            Todo
+                .find({ categoryID, userID })
+                .skip(page * ELEMENTS_PER_PAGE)
+                .limit(ELEMENTS_PER_PAGE)
+        ])
+        const totalPages = Math.ceil(totalDocuments / ELEMENTS_PER_PAGE)
+        res.status(200).json({ totalPages, todos });
     } catch (error) {
         console.log(error);
         res.status(500).json({ error: "couldn't fetch the document" });
@@ -30,7 +39,7 @@ export const addTodo = async (req: Request, res: Response) => {
 };
 
 //delete
-export const deleteTodo =  async (req: Request, res: Response) => {
+export const deleteTodo = async (req: Request, res: Response) => {
     const ID = req.params.ID;
     try {
         const result = await Todo.findByIdAndDelete(ID);

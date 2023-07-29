@@ -5,6 +5,7 @@ import { TodoType } from "../Types/Todo";
 import { AuthanticationResult } from "../Types/SignUpResult";
 import { User } from "../Types/User";
 import { RootState } from "./store";
+import { PaginatedCategories, PaginatedTodos } from "../Types/PaginatedResults";
 
 type SearchType = {
   categories?: CategoryType[];
@@ -26,7 +27,7 @@ interface AuthorizedRequest<T> extends GeneralRequest<T> {
 export const api = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://to-do-list-api-rk3r.onrender.com/api/",
+    baseUrl: process.env.REACT_APP_API_URL,
     prepareHeaders: (headers, { getState }) => {
       const auth = (getState() as RootState).auth
       if (auth) {
@@ -37,16 +38,19 @@ export const api = createApi({
   }),
   tagTypes: ["Categories", "Todos", "Users"],
   endpoints: (builder) => ({
-    getCategories: builder.query<CategoryType[], void>({
-      query: () => {
+    getCategories: builder.query<PaginatedCategories, number>({
+      query: (page=0) => {
         return {
           url: `categories/`,
+          params: {
+            page,
+          }
         }
       },
       providesTags: (result) =>
         result
           ? [
-            ...result.map(({ _id }) => ({ type: "Categories" as const, id: _id })),
+            ...result.categories.map(({ _id }) => ({ type: "Categories" as const, id: _id })),
             { type: "Categories", id: "LIST" },
           ]
           : [{ type: "Categories", id: "LIST" }],
@@ -59,7 +63,10 @@ export const api = createApi({
           body,
         };
       },
-      invalidatesTags: [{ type: "Categories", id: "LIST" }],
+      invalidatesTags: (result, error, id) =>[
+        { type: 'Categories', id:(result as CategoryType)._id },
+        { type: 'Categories', id: 'LIST' },
+      ]
     }),
     removeCategory: builder.mutation<{ success: boolean; id: string }, string>({
       query: (id) => {
@@ -74,17 +81,20 @@ export const api = createApi({
       ],
     }),
 
-    getTodosByCategoryID: builder.query<TodoType[], string>({
-      query: (categoryID) => {
+    getTodosByCategoryID: builder.query<PaginatedTodos, {categoryID: string, page:number}>({
+      query: ({categoryID, page}) => {
         return {
           url: `todos/${categoryID}`,
           method: "GET",
+          params:{
+            page,
+          }
         };
       },
       providesTags: (result) =>
         result
           ? [
-            ...result.map(({ _id }) => ({ type: "Todos" as const, id: _id })),
+            ...result.todos.map(({ _id }) => ({ type: "Todos" as const, id: _id })),
             { type: "Todos", id: "LIST" },
           ]
           : [{ type: "Todos", id: "LIST" }],

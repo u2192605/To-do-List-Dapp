@@ -5,7 +5,8 @@ import { todosRouter } from "./routes/todos";
 import bodyParser from 'body-parser'
 import cors from 'cors'
 import { usersRouter } from "./routes/users";
-// require('dotenv').config('../.env')
+require('dotenv').config('../.env')
+// require('dotenv').config({path: __dirname + '/.env'})
 let app: Express;
 
 app = express();
@@ -36,7 +37,6 @@ const connectToDB = async () => {
     });
   } catch (error) {
     console.log(error)
-
   }
 
 }

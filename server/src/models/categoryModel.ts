@@ -17,7 +17,7 @@ interface CategoryModel extends Model<ICateogry> {
 const categorySchema = new Schema<ICateogry, CategoryModel>({
     name: { type: String, required: true, unique: true },
     color: { type: String, required: true, default: "#FFFFFF" },
-    userID: { type: String, required: true }
+    userID: { type: String, required: true, index: true }
 })
 
 export const Category = mongoose.model<ICateogry, CategoryModel>

@@ -19,7 +19,7 @@ const categoriesLoader = async () => {
   if (!token) {
     throw redirect("/login");
   }
-  const p = store.dispatch(api.endpoints.getCategories.initiate());
+  const p = store.dispatch(api.endpoints.getCategories.initiate(0));
   try {
     const response = await p.unwrap();
     return response;

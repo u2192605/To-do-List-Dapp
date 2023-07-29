@@ -4,6 +4,7 @@ import reportWebVitals from "./reportWebVitals";
 import { store } from "./redux/store";
 import { Provider } from "react-redux";
 import { Root } from "./Root";
+// require('dotenv').config(); 
 
 
 const rootElement = document.getElementById("root") as HTMLElement
