@@ -26,7 +26,7 @@ interface AuthorizedRequest<T> extends GeneralRequest<T> {
 export const api = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://https://to-dolist-production-398c.up.railway.app/api",
+    baseUrl: "https://to-do-list-api-rk3r.onrender.com/api/",
     prepareHeaders: (headers, { getState }) => {
       const auth = (getState() as RootState).auth
       if (auth) {
