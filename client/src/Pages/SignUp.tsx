@@ -1,5 +1,8 @@
 import { Form, Link } from "react-router-dom";
+import { useSignUpMutation } from "../redux/apiSlice";
+import { Spinner } from "../Components/Spinner";
 export const SignUp = () => {
+  const [, signupResult] = useSignUpMutation();
   return (
     <div className="flex flex-col justify-start items-center w-auto h-auto mx-auto max-w-md">
       <div className="text-2xl mt-2 mb-2">Signup</div>
@@ -84,22 +87,27 @@ export const SignUp = () => {
           </div>
         </div>
 
-        <input
+        <button
           className="cursor-pointer rounded-md border-2 border-black p-2 w-full
             hover:outline-teal-500 hover:border-teal-500
             focus:outline-teal-500 focus-within:border-teal-500
             hover:shadow-xl"
-          type="submit"
-          value="Signup"
-        />
-        <button
-          className="rounded-md border-2 border-black p-2 w-full
-            hover:outline-teal-500 hover:border-teal-500
-            focus:outline-teal-500 focus-within:border-teal-500
-            hover:shadow-xl"
         >
-          <Link to={"/login"}>Login</Link>
+          {signupResult.isLoading ? <Spinner length={4} /> : "Singup"}
         </button>
+        <div
+          className="cursor-pointer w-full border-2 border-black rounded-md p-2
+         hover:outline-teal-500 hover:border-teal-500
+         focus:outline-teal-500 focus-within:border-teal-500
+           hover:shadow-xl"
+        >
+          <Link
+            to={"/login"}
+            className="flex w-full justify-center items-center"
+          >
+            Login
+          </Link>
+        </div>
       </Form>
     </div>
   );

@@ -1,45 +1,34 @@
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux/store";
-import { setColor, setContent } from "../redux/itemSlice";
-import React, { FC, useState } from "react";
+import { setContent } from "../redux/itemSlice";
+import React, { FC } from "react";
 import { ItemType } from "../Types/Item";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { Spinner } from "./Spinner";
 interface Props {
   onAddItem: (item: ItemType) => void;
-  canChooseColor?: boolean;
+  isPerformingQuery?: boolean;
 }
-export const AddItem: FC<Props> = ({ onAddItem, canChooseColor }) => {
-  const [clicked, setClicked] = useState(false);
-
-  const { content, color } = useSelector(
-    (state: RootState) => state.item.input
-  );
+export const AddItem: FC<Props> = ({
+  onAddItem,
+  isPerformingQuery: isFetchingData,
+}) => {
+  const { content } = useSelector((state: RootState) => state.item.input);
   const dispatch = useDispatch();
 
   const handleContentChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(setContent(event.target.value));
   };
 
-  const handleColorChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(setColor(event.target.value));
-  };
-
-  const handleOnNewClicked = () => {
-    clearInput();
-    setClicked(!clicked);
-  };
-
   const clearInput = () => {
-    dispatch(setColor("#FFFFFF"));
     dispatch(setContent(""));
   };
 
   const handleOnAddItem = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
-    onAddItem({ content, color });
+    onAddItem({ content });
     clearInput();
-    setClicked(false);
   };
 
   return (
@@ -58,13 +47,17 @@ export const AddItem: FC<Props> = ({ onAddItem, canChooseColor }) => {
         />
         <button
           className="rounded-md border-2 border-black
-            w-12 h-12
-            hover:outline-teal-500 hover:border-teal-500
+            w-12 h-12 hover:outline-teal-500 hover:border-teal-500
             focus:outline-teal-500 focus-within:border-teal-500
+            flex justify-center items-center
             "
           onClick={handleOnAddItem}
         >
-          <FontAwesomeIcon icon={faPlus} />
+          {isFetchingData ? (
+            <Spinner length={4} />
+          ) : (
+            <FontAwesomeIcon icon={faPlus} />
+          )}
         </button>
       </div>
     </div>

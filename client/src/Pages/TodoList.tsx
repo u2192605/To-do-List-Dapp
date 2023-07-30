@@ -1,5 +1,5 @@
+import { AddItem } from "../Components/AddItem";
 import { Todo } from "../Components/Todo";
-import { Card } from "../Components/Card";
 
 import { ItemType } from "../Types/Item";
 import {
@@ -7,9 +7,9 @@ import {
   useGetTodosByCategoryIDQuery,
 } from "../redux/apiSlice";
 import { useLocation, useParams } from "react-router-dom";
-import { AddItem } from "../Components/addItem";
 import { useState } from "react";
 import { PaginationManager } from "../Components/PaginationManager";
+import { Spinner } from "../Components/Spinner";
 
 export const TodoList = () => {
   const [page, setPage] = useState(0);
@@ -19,7 +19,7 @@ export const TodoList = () => {
     categoryID: ID || "",
     page,
   });
-  const [addTodo, result] = useAddTodoMutation();
+  const [addTodo, addTodoResult] = useAddTodoMutation();
   const handleAddItem = (item: ItemType) => {
     addTodo({
       name: item.content,
@@ -27,6 +27,10 @@ export const TodoList = () => {
       categoryID: ID,
     });
   };
+
+  const todos = data?.todos.map((value) => {
+    return <Todo todo={value} key={value._id}></Todo>;
+  });
   return (
     <div className="flex flex-col items-center justify-center">
       <div
@@ -34,19 +38,23 @@ export const TodoList = () => {
         mx-auto space-y-6"
       >
         <div className="text-2xl mt-6">{state.name}</div>
-        {data?.todos.map((value) => {
-          return <Todo todo={value} key={value._id}></Todo>;
-        })}
-        <PaginationManager
-          page={page}
-          totalPages={data?.totalPages || 0}
-          changePage={setPage}
-        />
+        {isLoading ? <Spinner /> : todos}
+
+        {data?.totalPages ? (
+          <PaginationManager
+            page={page}
+            totalPages={data?.totalPages || 0}
+            changePage={setPage}
+          />
+        ) : (
+          <div className="text-xl">Nothing yet</div>
+        )}
       </div>
       <AddItem
         onAddItem={(item) => {
           handleAddItem(item);
         }}
+        isPerformingQuery={addTodoResult.isLoading}
       />
     </div>
   );

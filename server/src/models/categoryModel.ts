@@ -15,7 +15,7 @@ interface CategoryModel extends Model<ICateogry> {
 }
 
 const categorySchema = new Schema<ICateogry, CategoryModel>({
-    name: { type: String, required: true, unique: true },
+    name: { type: String, required: true },
     color: { type: String, required: true, default: "#FFFFFF" },
     userID: { type: String, required: true, index: true }
 })

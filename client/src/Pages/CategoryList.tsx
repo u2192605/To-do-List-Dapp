@@ -1,4 +1,4 @@
-import { AddItem } from "../Components/addItem";
+import { AddItem } from "../Components/AddItem";
 import { ItemType } from "../Types/Item";
 import {
   useAddCategoryMutation,
@@ -7,23 +7,26 @@ import {
 import { CategoryType } from "../Types/Category";
 import { Category } from "../Components/Category";
 import { useState } from "react";
+import { Spinner } from "../Components/Spinner";
 import { PaginationManager } from "../Components/PaginationManager";
 
 export const CategoryList = () => {
   // const { token, userID } = JSON.parse(localStorage.getItem("user") as string);
   const [page, setPage] = useState(0);
-  const { data, error, isLoading } = useGetCategoriesQuery(page);
+  const { data, isLoading, isFetching } = useGetCategoriesQuery(page);
 
-  console.log(data, page);
   // const dispatch = useDispatch()
-  const [addCategory, result] = useAddCategoryMutation();
+  const [addCategory, addCategoryResult] = useAddCategoryMutation();
 
   const handleAddItem = (item: ItemType) => {
     addCategory({
       name: item.content,
-      color: item.color ?? "#FFFFFF",
     });
   };
+
+  const categories = data?.categories?.map((value: CategoryType) => (
+    <Category category={value} key={value._id}></Category>
+  ));
 
   return (
     <div className="flex flex-col items-center justify-center">
@@ -32,18 +35,22 @@ export const CategoryList = () => {
         mx-auto space-y-6"
       >
         <div className="text-2xl mt-6">Categories</div>
-        {data?.categories?.map((value: CategoryType) => (
-          <Category category={value} key={value._id}></Category>
-        ))}
-        <PaginationManager
-          page={page}
-          totalPages={data?.totalPages || 0}
-          changePage={setPage}
-        />
+
+        {isLoading ? <Spinner /> : categories}
+
+        {data?.totalPages ? (
+          <PaginationManager
+            page={page}
+            totalPages={data.totalPages}
+            changePage={setPage}
+          />
+        ) : (
+          <div className="text-xl">Nothing yet</div>
+        )}
       </div>
       <AddItem
-        canChooseColor={true}
         onAddItem={(item) => handleAddItem(item)}
+        isPerformingQuery={addCategoryResult?.isLoading}
       />
     </div>
   );

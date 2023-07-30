@@ -1,6 +1,10 @@
 import { Form, Link } from "react-router-dom";
+import { useLoginMutation } from "../redux/apiSlice";
+import { Spinner } from "../Components/Spinner";
 
 export const Login = () => {
+  const [, loginResult] = useLoginMutation();
+
   return (
     <div
       className="flex flex-col justify-start items-center w-auto h-auto max-w-md
@@ -31,14 +35,14 @@ export const Login = () => {
           name="password"
           placeholder="Password"
         />
-        <input
+        <button
           className="cursor-pointer w-full border-2 border-black rounded-md p-2
                 hover:outline-teal-500 hover:border-teal-500
                 focus:outline-teal-500 focus-within:border-teal-500
                 hover:shadow-xl"
-          type="submit"
-          value={"Login"}
-        />
+        >
+          {loginResult.isLoading ? <Spinner length={4} /> : 'Login'}
+        </button>
         <div
           className="cursor-pointer w-full border-2 border-black rounded-md p-2
                hover:outline-teal-500 hover:border-teal-500
