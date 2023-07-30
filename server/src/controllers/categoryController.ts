@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { Category } from "../models/categoryModel";
+import { Todo } from "../models/todoModel";
 // get
 
 export const getCategories = async (req: Request, res: Response) => {
@@ -40,7 +41,10 @@ export //delete
     const deleteCategory = async (req: Request, res: Response) => {
         const ID = req.params.ID;
         try {
-            const result = await Category.findByIdAndDelete(ID);
+            const result = await Promise.all([
+                Category.findByIdAndDelete(ID),
+                Todo.deleteMany({categoryID: ID})
+            ]);
             res.status(200).json(result);
         } catch (error) {
             console.log(error);
