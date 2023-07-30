@@ -1,4 +1,4 @@
-import { AddItem } from "../Components/AddItem";
+import { AddItem } from "../Components/AddItemComponent";
 import { Todo } from "../Components/Todo";
 
 import { ItemType } from "../Types/Item";

@@ -1,4 +1,4 @@
-import { AddItem } from "../Components/AddItem";
+import { AddItem } from "../Components/AddItemComponent";
 import { ItemType } from "../Types/Item";
 import {
   useAddCategoryMutation,
