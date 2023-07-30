@@ -6,6 +6,7 @@ import { ItemType } from "../Types/Item";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { Spinner } from "./Spinner";
+
 interface Props {
   onAddItem: (item: ItemType) => void;
   isPerformingQuery?: boolean;
