@@ -3,16 +3,18 @@ import { Todo } from "../Components/Todo";
 
 import { ItemType } from "../Types/Item";
 import {
+  api,
   useAddTodoMutation,
   useGetTodosByCategoryIDQuery,
 } from "../redux/apiSlice";
-import { useLocation, useParams } from "react-router-dom";
+import { redirect, useLocation, useParams } from "react-router-dom";
 import { useState } from "react";
 import { PaginationManager } from "../Components/PaginationManager";
 import { Spinner } from "../Components/Spinner";
 import { List } from "../Components/List";
+import { store } from "../redux/store";
 
-export const TodoList = () => {
+export const Component = () => {
   const [page, setPage] = useState(0);
   const { ID } = useParams();
   const { state } = useLocation();
@@ -59,3 +61,25 @@ export const TodoList = () => {
     />
   );
 };
+
+Component.displaName = 'TodoList'
+
+export const loader = async ({ params }: any) => {
+  const token = store.getState().auth.token;
+  if (!token) {
+    throw redirect("/login");
+  }
+  const p = store.dispatch(
+    api.endpoints.getTodosByCategoryID.initiate(params.ID ?? "")
+  );
+  try {
+    const response = await p.unwrap();
+    return response;
+  } catch (error) {
+    return error;
+  } finally {
+    p.unsubscribe();
+  }
+};
+
+loader.displayName = 'TodoListLoader'

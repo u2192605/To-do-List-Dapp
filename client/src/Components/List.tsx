@@ -13,8 +13,6 @@ interface Props {
 }
 
 export const List: FC<Props> = ({ children, totalPages }) => {
-  console.log(children.items, "items");
-  console.log(children.paginationManager, "pagination");
   return (
     <div className="flex flex-col items-center justify-center">
       <div

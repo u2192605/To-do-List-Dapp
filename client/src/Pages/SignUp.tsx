@@ -1,7 +1,11 @@
-import { Form, Link } from "react-router-dom";
-import { useSignUpMutation } from "../redux/apiSlice";
+import { Form, Link, redirect } from "react-router-dom";
+import { api, useSignUpMutation } from "../redux/apiSlice";
 import { Spinner } from "../Components/Spinner";
-export const SignUp = () => {
+import { store } from "../redux/store";
+import { setCredentials } from "../redux/authSlice";
+import { User } from "../Types/User";
+
+export const Component = () => {
   const [, signupResult] = useSignUpMutation();
   return (
     <div className="flex flex-col justify-start items-center w-auto h-auto mx-auto max-w-md">
@@ -111,4 +115,39 @@ export const SignUp = () => {
       </Form>
     </div>
   );
+};
+
+export const loader = () => {
+  const token = store.getState().auth.token;
+  if (token) throw redirect("/categories");
+  return null;
+};
+
+export const action = async ({ request, params }: any) => {
+  switch (request.method) {
+    case "POST":
+      const d = Object.fromEntries(await request.formData());
+      const user = {
+        name: `${d.firstName} ${d.lastName}`,
+        password: d.password,
+        gender: d.gender,
+        email: d.email,
+      } as any;
+      const p = store.dispatch(api.endpoints.signUp.initiate(user));
+      try {
+        const response = await p.unwrap();
+        const r_user = {
+          name: response.name as string,
+          _id: response._id as string,
+          email: response.email as string,
+          gender: response.gender as string,
+        } as User;
+        const token = response.token as string;
+        await store.dispatch(setCredentials({ user: r_user, token }));
+        localStorage.setItem("user", JSON.stringify(response));
+        return redirect("/login");
+      } catch (error: any) {
+        return error;
+      }
+  }
 };

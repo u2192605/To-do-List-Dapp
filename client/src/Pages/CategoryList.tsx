@@ -1,6 +1,7 @@
 import { AddItem } from "../Components/AddItemComponent";
 import { ItemType } from "../Types/Item";
 import {
+  api,
   useAddCategoryMutation,
   useGetCategoriesQuery,
 } from "../redux/apiSlice";
@@ -10,8 +11,12 @@ import { useState } from "react";
 import { Spinner } from "../Components/Spinner";
 import { PaginationManager } from "../Components/PaginationManager";
 import { List } from "../Components/List";
+import { redirect } from "react-router-dom";
+import { store } from "../redux/store";
 
-export const CategoryList = () => {
+
+
+export const Component = () => {
   const [page, setPage] = useState(0);
   const { data, isLoading, isFetching } = useGetCategoriesQuery(page);
   const [addCategory, addCategoryResult] = useAddCategoryMutation();
@@ -25,7 +30,6 @@ export const CategoryList = () => {
   const categories = data?.categories?.map((value: CategoryType) => (
     <Category category={value} key={value._id}></Category>
   ));
-  console.log(isLoading);
 
   return (
     <List
@@ -52,3 +56,24 @@ export const CategoryList = () => {
     />
   );
 };
+
+Component.diplayName  = 'CategoryList'
+
+export const  loader = async () => {
+  const token = store.getState().auth.token;
+  if (!token) {
+    throw redirect("/login");
+  }
+  const p = store.dispatch(api.endpoints.getCategories.initiate(0));
+  try {
+    const response = await p.unwrap();
+    return response;
+    // return defer({ response });
+  } catch (error) {
+    return error;
+  } finally {
+    p.unsubscribe();
+  }
+};
+
+loader.diplayName  = 'CategoryListLoader'

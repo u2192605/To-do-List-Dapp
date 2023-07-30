@@ -21,7 +21,6 @@ export const PaginationManager: FC<Props> = ({
   const handleChangePage = (increment: PageIncrement) => {
     changePage(page + increment);
   };
-  console.log(page)
   return (
     <div className="flex space-x-2">
       <button
