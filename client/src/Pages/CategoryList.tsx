@@ -27,9 +27,15 @@ export const Component = () => {
     });
   };
 
+  if (data && data.totalPages !== 0 && data.totalPages < page + 1) {
+    console.log(page, data.totalPages, "here");
+    setPage(data.totalPages - 1);
+  }
+
   const categories = data?.categories?.map((value: CategoryType) => (
     <Category category={value} key={value._id}></Category>
   ));
+
 
   return (
     <List
@@ -59,7 +65,8 @@ export const Component = () => {
 
 Component.diplayName  = 'CategoryList'
 
-export const  loader = async () => {
+export const  loader = async ({params}:any) => {
+  
   const token = store.getState().auth.token;
   if (!token) {
     throw redirect("/login");

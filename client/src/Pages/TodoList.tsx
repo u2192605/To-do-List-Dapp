@@ -31,6 +31,11 @@ export const Component = () => {
     });
   };
 
+  if (data && data.totalPages !== 0 && data.totalPages < page + 1) {
+    console.log(page, data.totalPages, "here");
+    setPage(data.totalPages - 1);
+  }
+
   const todos = data?.todos.map((value) => {
     return <Todo todo={value} key={value._id}></Todo>;
   });
@@ -62,7 +67,7 @@ export const Component = () => {
   );
 };
 
-Component.displaName = 'TodoList'
+Component.displaName = "TodoList";
 
 export const loader = async ({ params }: any) => {
   const token = store.getState().auth.token;
@@ -82,4 +87,4 @@ export const loader = async ({ params }: any) => {
   }
 };
 
-loader.displayName = 'TodoListLoader'
+loader.displayName = "TodoListLoader";
