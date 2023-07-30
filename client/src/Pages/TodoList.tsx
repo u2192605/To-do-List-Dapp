@@ -10,6 +10,7 @@ import { useLocation, useParams } from "react-router-dom";
 import { useState } from "react";
 import { PaginationManager } from "../Components/PaginationManager";
 import { Spinner } from "../Components/Spinner";
+import { List } from "../Components/List";
 
 export const TodoList = () => {
   const [page, setPage] = useState(0);
@@ -32,15 +33,12 @@ export const TodoList = () => {
     return <Todo todo={value} key={value._id}></Todo>;
   });
   return (
-    <div className="flex flex-col items-center justify-center">
-      <div
-        className="flex flex-col justify-start items-center w-7/12 h-full
-        mx-auto space-y-6"
-      >
-        <div className="text-2xl mt-6">{state.name}</div>
-        {isLoading ? <Spinner /> : todos}
-
-        {data?.totalPages ? (
+    <List
+      totalPages={data?.totalPages || 0}
+      children={{
+        title: <div className="text-2xl mt-6">{state.name}</div>,
+        items: isLoading ? <Spinner /> : todos,
+        paginationManager: data?.totalPages ? (
           <PaginationManager
             page={page}
             totalPages={data?.totalPages || 0}
@@ -48,14 +46,16 @@ export const TodoList = () => {
           />
         ) : (
           <div className="text-xl">Nothing yet</div>
-        )}
-      </div>
-      <AddItem
-        onAddItem={(item) => {
-          handleAddItem(item);
-        }}
-        isPerformingQuery={addTodoResult.isLoading}
-      />
-    </div>
+        ),
+        AddItem: (
+          <AddItem
+            onAddItem={(item) => {
+              handleAddItem(item);
+            }}
+            isPerformingQuery={addTodoResult.isLoading}
+          />
+        ),
+      }}
+    />
   );
 };

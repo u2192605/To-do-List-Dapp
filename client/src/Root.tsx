@@ -1,6 +1,5 @@
 import {
   createBrowserRouter,
-  defer,
   Navigate,
   redirect,
   RouterProvider,
@@ -22,8 +21,9 @@ const categoriesLoader = async () => {
   }
   const p = store.dispatch(api.endpoints.getCategories.initiate(0));
   try {
-    const response = p;
-    return defer({ response });
+    const response = await p.unwrap();
+    return response;
+    // return defer({ response });
   } catch (error) {
     return error;
   } finally {
@@ -40,8 +40,9 @@ const signleCategoryLoader = async ({ params }: any) => {
     api.endpoints.getTodosByCategoryID.initiate(params.ID ?? "")
   );
   try {
-    const response =p
-    return defer({response})
+    const response = await p.unwrap();
+    return response;
+    // return defer({response})
   } catch (error) {
     return error;
   } finally {
@@ -108,7 +109,8 @@ const signupAction = async ({ request, params }: any) => {
 const loginLoader = () => {
   const token = store.getState().auth.token;
   if (token) throw redirect("/categories");
-  return defer({});
+  return null;
+  // return defer({});
 };
 const signUpLoader = loginLoader;
 
@@ -121,6 +123,8 @@ const logoutAction = async () => {
       token: "",
     })
   );
+  store.dispatch(api.util.resetApiState());
+
   return redirect("/");
 };
 
