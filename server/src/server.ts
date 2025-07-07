@@ -5,7 +5,8 @@ import { todosRouter } from "./routes/todos";
 import bodyParser from 'body-parser'
 import cors from 'cors'
 import { usersRouter } from "./routes/users";
-require('dotenv').config('../.env')
+import dotenv from 'dotenv';
+dotenv.config();
 // require('dotenv').config({path: __dirname + '/.env'})
 let app: Express;
 
@@ -31,12 +32,17 @@ app.get("/", (req: Request, res: Response, next: NextFunction): void => {
 //connect to db
 const connectToDB = async () => {
   try {
-    await mongoose.connect(process.env.MONGO_URI as string)
+    console.log("Attempting to connect to MongoDB...");  // <--- Add this
+
+    await mongoose.connect(process.env.MONGO_URI as string);
+
+    console.log("✅ Connected to MongoDB Atlas");  // <--- Add this
+
     app.listen(process.env.PORT, () => {
       console.log(`listening on ${process.env.PORT}`);
     });
   } catch (error) {
-    console.log(error)
+    console.error("❌ MongoDB connection failed:", error);
   }
 
 }
