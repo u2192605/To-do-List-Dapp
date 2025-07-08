@@ -7,7 +7,7 @@ import cors from 'cors'
 import { usersRouter } from "./routes/users";
 import dotenv from 'dotenv';
 dotenv.config();
-// require('dotenv').config({path: __dirname + '/.env'})
+
 let app: Express;
 
 app = express();
@@ -32,17 +32,17 @@ app.get("/", (req: Request, res: Response, next: NextFunction): void => {
 //connect to db
 const connectToDB = async () => {
   try {
-    console.log("Attempting to connect to MongoDB...");  // <--- Add this
+    console.log("Attempting to connect to MongoDB.");
 
     await mongoose.connect(process.env.MONGO_URI as string);
 
-    console.log("✅ Connected to MongoDB Atlas");  // <--- Add this
+    console.log("Connected to MongoDB Atlas");
 
     app.listen(process.env.PORT, () => {
       console.log(`listening on ${process.env.PORT}`);
     });
   } catch (error) {
-    console.error("❌ MongoDB connection failed:", error);
+    console.error("MongoDB connection failed:", error);
   }
 
 }
