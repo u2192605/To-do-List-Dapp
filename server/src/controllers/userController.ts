@@ -12,36 +12,43 @@ const createToken = (_id: ObjectId) => {
 }
 
 export const signUpUser = async (req: Request, res: Response) => {
-    const user: IUser = req.body
-    try {
-        const result = await User.signUp(user);
-        const token = createToken(result._id)
-            res.status(200).json({
-                name: result.name,
-                email: result.email,
-                gender: result.gender,
-                _id: result._id,
-                token,
-            })
-    } catch (error: any) {
-        console.log(error)
-        res.status(500).json({ error: error.message })
-    }
-}
+  const user: IUser = req.body;
+  try {
+    const result = await User.signUp(user);
+    const token = createToken(result._id);
+
+    res.status(200).json({
+      name: result.name,
+      email: result.email,
+      gender: result.gender,
+      _id: result._id,
+      token,
+      walletAddress: result.walletAddress,   
+      walletMnemonic: result.walletMnemonic,   
+    });
+  } catch (error: any) {
+    console.log(error);
+    res.status(500).json({ error: error.message });
+  }
+};
 
 export const login = async (req: Request, res: Response) => {
-    const {email, password} = req.body
-    try {
-        const result = await User.login(email, password);
-        const token = createToken(result._id)
-            res.status(200).json({
-                name: result.name,
-                email: result.email,
-                gender: result.gender,
-                _id: result._id,
-                token,
-            })
-    } catch (error: any) {
-        res.status(500).json({ error: error.message })
-    }
-}
+  const { email, password } = req.body;
+  try {
+    const result = await User.login(email, password);
+    const token = createToken(result._id);
+
+    res.status(200).json({
+      name: result.name,
+      email: result.email,
+      gender: result.gender,
+      _id: result._id,
+      token,
+      walletAddress: result.walletAddress,     
+      walletMnemonic: result.walletMnemonic,   
+    });
+  } catch (error: any) {
+    res.status(500).json({ error: error.message });
+  }
+};
+

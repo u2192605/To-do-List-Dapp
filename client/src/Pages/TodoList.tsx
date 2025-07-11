@@ -25,7 +25,7 @@ export const Component = () => {
   const [addTodo, addTodoResult] = useAddTodoMutation();
   const handleAddItem = (item: ItemType) => {
     addTodo({
-      name: item.content,
+      name: item.name,
       finished: false,
       categoryID: ID,
     });

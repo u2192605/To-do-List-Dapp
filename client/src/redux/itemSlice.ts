@@ -5,9 +5,20 @@ export interface ItemStateType {
   input: ItemType;
 }
 
+const defaultWallet = localStorage.getItem("walletAddress") || "";
+const storedUser = JSON.parse(localStorage.getItem("user") || "{}");
+const defaultUserID = storedUser?.user?._id || "";
+const defaultAppId = 1;
+
 const initialState: ItemStateType = {
   input: {
-    content: "",
+    name: "",
+    taskDoerAddress: defaultWallet,
+    rewardAmount: 1000000,
+    categoryID: "",
+    finished: false,
+    userID: defaultUserID,
+    appId: defaultAppId,
   },
 };
 
@@ -16,10 +27,29 @@ export const itemSlice = createSlice({
   initialState,
   reducers: {
     setContent: (state, action: PayloadAction<string>) => {
-      state.input.content = action.payload;
+      state.input.name = action.payload;
+    },
+    setTaskDoerAddress: (state, action: PayloadAction<string>) => {
+      state.input.taskDoerAddress = action.payload;
+    },
+    setRewardAmount: (state, action: PayloadAction<number>) => {
+      state.input.rewardAmount = action.payload;
+    },
+    setUserID: (state, action: PayloadAction<string>) => {
+      state.input.userID = action.payload;
+    },
+    setAppId: (state, action: PayloadAction<number>) => {
+      state.input.appId = action.payload;
     },
   },
 });
 
-export const { setContent } = itemSlice.actions;
+export const {
+  setContent,
+  setTaskDoerAddress,
+  setRewardAmount,
+  setUserID,
+  setAppId,
+} = itemSlice.actions;
+
 export default itemSlice.reducer;

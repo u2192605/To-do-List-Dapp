@@ -23,7 +23,7 @@ export const Component = () => {
 
   const handleAddItem = (item: ItemType) => {
     addCategory({
-      name: item.content,
+      name: item.name,
     });
   };
 
@@ -75,7 +75,6 @@ export const  loader = async ({params}:any) => {
   try {
     const response = await p.unwrap();
     return response;
-    // return defer({ response });
   } catch (error) {
     return error;
   } finally {

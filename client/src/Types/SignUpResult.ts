@@ -4,4 +4,6 @@ export interface AuthanticationResult{
     gender: string,
     email: string,
     token: string,
+    walletAddress: string;
+    walletMnemonic: string;
 }

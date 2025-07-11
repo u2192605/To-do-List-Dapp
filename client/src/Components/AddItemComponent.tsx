@@ -11,11 +11,12 @@ interface Props {
   onAddItem: (item: ItemType) => void;
   isPerformingQuery?: boolean;
 }
+
 export const AddItem: FC<Props> = ({
   onAddItem,
   isPerformingQuery: isFetchingData,
 }) => {
-  const { content } = useSelector((state: RootState) => state.item.input);
+  const { name } = useSelector((state: RootState) => state.item.input);
   const dispatch = useDispatch();
 
   const handleContentChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -28,7 +29,44 @@ export const AddItem: FC<Props> = ({
 
   const handleOnAddItem = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
-    onAddItem({ content });
+
+  const storedWallet = localStorage.getItem("walletAddress");
+
+  if (!storedWallet || storedWallet === "undefined") {
+    console.warn("Missing wallet address. Cannot submit todo.");
+    return;
+  }
+
+const taskDoerAddress = storedWallet;
+    const categoryID = localStorage.getItem("categoryID") || "";
+    const rewardAmount = 1000000;
+    const user = JSON.parse(localStorage.getItem("user") || "{}");
+    const userID = user?.user?._id || "";
+    const appId = 1; // hardcoded or dynamic if needed
+
+    if (!name || !taskDoerAddress || !categoryID || !userID) {
+      console.warn("Missing required fields", {
+        name,
+        taskDoerAddress,
+        categoryID,
+        userID,
+      });
+      return;
+    }
+
+    const newItem: ItemType = {
+      name,
+      finished: false,
+      categoryID,
+      taskDoerAddress,
+      rewardAmount,
+      userID,
+      appId,
+    };
+
+    console.log("Submitting item:", newItem);
+
+    onAddItem(newItem);
     clearInput();
   };
 
@@ -38,8 +76,8 @@ export const AddItem: FC<Props> = ({
         <input
           type="text"
           placeholder="Enter item name"
-          value={content}
-          onChange={(event) => handleContentChange(event)}
+          value={name}
+          onChange={handleContentChange}
           onClick={(e) => e.stopPropagation()}
           className="resize-none rounded-md border-2 border-black p-2
             h-12 w-full hover:outline-teal-500 hover:border-teal-500
@@ -50,8 +88,7 @@ export const AddItem: FC<Props> = ({
           className="rounded-md border-2 border-black
             w-12 h-12 hover:outline-teal-500 hover:border-teal-500
             focus:outline-teal-500 focus-within:border-teal-500
-            flex justify-center items-center
-            "
+            flex justify-center items-center"
           onClick={handleOnAddItem}
         >
           {isFetchingData ? (
@@ -64,3 +101,4 @@ export const AddItem: FC<Props> = ({
     </div>
   );
 };
+

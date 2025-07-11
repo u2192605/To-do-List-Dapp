@@ -1,3 +1,9 @@
 export type ItemType = {
-    content: string,
-}
+  name: string;
+  taskDoerAddress: string;
+  rewardAmount: number;
+  categoryID: string;
+  finished: boolean;
+  userID?: string;
+  appId?: number;
+};

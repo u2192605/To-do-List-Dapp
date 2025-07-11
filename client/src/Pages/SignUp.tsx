@@ -7,6 +7,7 @@ import { User } from "../Types/User";
 
 export const Component = () => {
   const [, signupResult] = useSignUpMutation();
+
   return (
     <div className="flex flex-col justify-start items-center w-auto h-auto mx-auto max-w-md">
       <div className="text-2xl mt-2 mb-2">Signup</div>
@@ -21,12 +22,11 @@ export const Component = () => {
             className="rounded-md border-2 border-black p-2 w-1/2
             hover:outline-teal-500 hover:border-teal-500
             focus:outline-teal-500 focus-within:border-teal-500
-            hover:shadow-xl
-            "
+            hover:shadow-xl"
             type="text"
             placeholder="First Name"
             name="firstName"
-            required={true}
+            required
             pattern="[a-zA-Z]+"
           />
           <input
@@ -37,46 +37,35 @@ export const Component = () => {
             type="text"
             placeholder="Last Name"
             name="lastName"
-            required={true}
+            required
             pattern="[a-zA-Z]+"
           />
         </div>
         <input
           className="rounded-md border-2 border-black p-2 w-full
-            hover:outline-teal-500 hover:border-teal-500
-            focus:outline-teal-500 focus-within:border-teal-500
-            hover:shadow-xl"
+          hover:outline-teal-500 hover:border-teal-500
+          focus:outline-teal-500 focus-within:border-teal-500
+          hover:shadow-xl"
           type="email"
           placeholder="Email"
           name="email"
-          required={true}
+          required
         />
         <input
           className="rounded-md border-2 border-black p-2 w-full
-            hover:outline-teal-500 hover:border-teal-500
-            focus:outline-teal-500 focus-within:border-teal-500
-            hover:shadow-xl"
+          hover:outline-teal-500 hover:border-teal-500
+          focus:outline-teal-500 focus-within:border-teal-500
+          hover:shadow-xl"
           type="password"
           placeholder="Password"
           name="password"
           pattern={"(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"}
-          required={true}
+          required
         />
-        {/* <input
-          type="password"
-          placeholder="Confirm password"
-          name="confirmPassword"
-        /> */}
         <div className="text-base">Gender</div>
         <div className="flex space-x-4 justify-start w-full">
           <div className="flex space-x-2">
-            <input
-              type="radio"
-              name="gender"
-              value="male"
-              id="male"
-              required={true}
-            />
+            <input type="radio" name="gender" value="male" id="male" required />
             <label htmlFor="male">male</label>
           </div>
           <div className="flex space-x-2">
@@ -85,7 +74,7 @@ export const Component = () => {
               name="gender"
               value="female"
               id="female"
-              required={true}
+              required
             />
             <label htmlFor="female">female</label>
           </div>
@@ -93,17 +82,18 @@ export const Component = () => {
 
         <button
           className="cursor-pointer rounded-md border-2 border-black p-2 w-full
-            hover:outline-teal-500 hover:border-teal-500
-            focus:outline-teal-500 focus-within:border-teal-500
-            hover:shadow-xl"
+          hover:outline-teal-500 hover:border-teal-500
+          focus:outline-teal-500 focus-within:border-teal-500
+          hover:shadow-xl"
         >
-          {signupResult.isLoading ? <Spinner length={4} /> : "Singup"}
+          {signupResult.isLoading ? <Spinner length={4} /> : "Signup"}
         </button>
+
         <div
           className="cursor-pointer w-full border-2 border-black rounded-md p-2
          hover:outline-teal-500 hover:border-teal-500
          focus:outline-teal-500 focus-within:border-teal-500
-           hover:shadow-xl"
+         hover:shadow-xl"
         >
           <Link
             to={"/login"}
@@ -123,28 +113,44 @@ export const loader = () => {
   return null;
 };
 
-export const action = async ({ request, params }: any) => {
+export const action = async ({ request }: any) => {
   switch (request.method) {
     case "POST":
       const d = Object.fromEntries(await request.formData());
+
       const user = {
         name: `${d.firstName} ${d.lastName}`,
         password: d.password,
         gender: d.gender,
         email: d.email,
       } as any;
+
       const p = store.dispatch(api.endpoints.signUp.initiate(user));
+
       try {
         const response = await p.unwrap();
+
         const r_user = {
           name: response.name as string,
           _id: response._id as string,
           email: response.email as string,
           gender: response.gender as string,
+          walletAddress: response.walletAddress as string,
+          walletMnemonic: response.walletMnemonic as string,
         } as User;
+
         const token = response.token as string;
+        localStorage.setItem("token", token);
+
         await store.dispatch(setCredentials({ user: r_user, token }));
+
+        // Save full user info in localStorage
         localStorage.setItem("user", JSON.stringify(response));
+
+        // Save wallet info separately for easier access
+        localStorage.setItem("walletAddress", response.walletAddress);
+        localStorage.setItem("walletMnemonic", response.walletMnemonic);
+
         return redirect("/login");
       } catch (error: any) {
         return error;

@@ -82,8 +82,13 @@ export const action = async ({ request, params }: any) => {
           gender: response.gender as string,
         } as User;
         const token = response.token as string;
+
         await store.dispatch(setCredentials({ user: r_user, token }));
         localStorage.setItem("user", JSON.stringify({ user: r_user, token }));
+        localStorage.setItem("token", token);
+        localStorage.setItem("walletAddress", response.walletAddress);
+        localStorage.setItem("walletMnemonic", response.walletMnemonic);
+
         return redirect("/categories");
       } catch (error: any) {
         return error;
